@@ -1,0 +1,179 @@
+#+TITLE: particlessymb.sty
+#+LINK_HOME: index.html
+#+LINK_UP: index.html
+#+LATEX_HEADER: \usepackage{particlessymb} \newenvironment{dummy}{}{}
+#+OPTIONS: LaTeX:dvipng
+
+Il pacchetto ~particlessymb.sty~ è un pacchetto per LaTeX che consente di
+inserire in maniera semplice i simboli delle particelle fisiche.  Secondo la
+[[http://xml.web.cern.ch/XML/pennames/heppennames2.pdf][Particle Entity Notation]] (PEN), redatta da [[http://goossens.web.cern.ch/goossens/][Michel Goossens]] del CERN, i simboli
+di queste particelle devono essere scritti con carattere dritto (o /romano/) e
+/non/ corsivo matematico.  In LaTeX si possono rendere con carattere romano le
+lettere latine poste in modalità matematica con il comando ~\mathrm{}~.  Per
+esempio, ~$\mathrm{e}$~ produce $\mathrm{e}$.  Tuttavia ~\mathrm{}~ non funziona
+con quelle greche, spesso usate nei simboli di particelle fisiche.  Per
+risolvere questo problema, semplificare in generale l'inserimento dei simboli di
+tutte le particelle fisiche e fornire uno strumento che permetta di farlo in
+maniera coerente, Michel Goossens ha creato il pacchetto [[http://xml.web.cern.ch/XML/pennames/heppennames2.sty][~heppennames2.sty~]], la
+cui documentazione è essenzialmente inclusa nel documento PEN.
+
+Il pacchetto ~heppennames2.sty~, però, ha il piccolo difetto di produrre le
+lettere greche sempre con lo stesso caraterre tipografico, indipendentemente dal
+font utilizzato nel documento.  Esistono almeno un paio di caratteri tipografici
+per LaTeX, ~kpfonts~ e ~fourier~ forniti dagli omonimi pacchetti, che hanno dei
+propri caratteri greci.  Ho forkato ~heppennames2.sty~ creando un pacchetto
+derivato chiamato [[http://www.dmf.unisalento.it/~giordano/allow_listing/particlessymb.sty][~particlessymb.sty~]] che fornisce il supporto per questi due
+pacchetti: se nel proprio documento è presente uno dei pacchetti ~kpfonts~ e
+~fourier~, ~particlessymb.sty~ utilizzerà le lettere greche di questi caratteri
+tipografici per scrivere i simboli delle particelle fisiche.  A parte questa
+differenza nell'uso dei font, i pacchetti ~heppennames2.sty~ e
+~particlessymb.sty~ sono identici.
+
+La PEN descrive una notazione per assegnare a ogni particella una stringa
+identificativa univoca.  I comandi dei pacchetti ~heppennames2.sty~ e
+~particlessymb.sty~ coincidono con questa stringa identificativa preceduta dal
+carattere ~\~ necessario in LaTeX per indicare i comandi.  I comandi possono
+essere inseriti dentro oppure fuori la modalità matematica, quindi non c'è
+bisogno di includerli fra ~$...$~ se non strettamente necessario per altri
+motivi.  Per i dettagli della nomenclatura PEN si rimanda al documento
+originale.
+
+Di seguito è riportato un esempio di un testo, con a fronte il relativo codice
+sorgente LaTeX usato per scriverlo, che fa uso dei comandi forniti dal pacchetto
+~particlessymb.sty~.
+
+#+BEGIN_HTML
+<div style="width:90%;margin-left: auto;margin-right: auto;">
+<div style="width:50%;float:left;">
+#+END_HTML
+\begin{dummy}
+La famiglia dei leptoni è costituita da
+\begin{itemize}
+\item elettrone (\Pe),
+\item muone (\PGm),
+\item tauone (\PGt),
+\item neutrino elettronico (\PGne),
+\item neutrino muonico (\PGnGm),
+\item neutrino tauonico (\PGnGt)
+\end{itemize}
+e corrispondenti antiparticelle:
+\begin{itemize}
+\item antielettrone o positrone (\Pep),
+\item antimuone (\PGmp),
+\item antitauone (\PGtp),
+\item antineutrino elettronico (\PAGne),
+\item antineutrino muonico (\PAGnGm),
+\item antineutrino tauonico (\PAGnGt).
+\end{itemize}
+\end{dummy}
+#+BEGIN_HTML
+</div>
+<div style="width:50%;float:left;">
+#+END_HTML
+#+BEGIN_SRC latex
+\usepackage{particlessymb} % nel preambolo
+...
+La famiglia dei leptoni è costituita da
+\begin{itemize}
+\item elettrone (\Pe),
+\item muone (\PGm),
+\item tauone (\PGt),
+\item neutrino elettronico (\PGne),
+\item neutrino muonico (\PGnGm),
+\item neutrino tauonico (\PGnGt)
+\end{itemize}
+e corrispondenti antiparticelle:
+\begin{itemize}
+\item antielettrone o positrone (\Pep),
+\item antimuone (\PGmp),
+\item antitauone (\PGtp),
+\item antineutrino elettronico (\PAGne),
+\item antineutrino muonico (\PAGnGm),
+\item antineutrino tauonico (\PAGnGt).
+\end{itemize}
+#+END_SRC
+#+BEGIN_HTML
+</div>
+<div style="clear:both;"></div>
+</div>
+#+END_HTML
+
+Per ottenere lo stesso risultato precedente senza far uso del pacchetto
+~particlessymb.sty~ si dovrebbe utilizzare il pacchetto ~upgreek.sty~, ma, come
+si vede nell'esempio seguente, il codice risulta in questo caso meno leggibile
+ed è facile dimenticarsi di mettere un ~up~ con il risultato di rendere la
+notazione meno coerente nel proprio documento.  Inoltre i comandi forniti dal
+pacchetto ~upgreek.sty~ devono essere necessariamente utilizzati in modalità
+matematica, quindi bisogna metterli fra ~$...$~ anche se si deve indicare una
+particella fisica all'interno di un testo semplice, come in questo caso.
+
+#+BEGIN_HTML
+<div style="width:90%;margin-left: auto;margin-right: auto;">
+<div style="width:50%;float:left;">
+#+END_HTML
+\begin{dummy}
+La famiglia dei leptoni è costituita da
+\begin{itemize}
+\item elettrone (e),
+\item muone ($\upmu$),
+\item tauone ($\uptau$),
+\item neutrino elettronico ($\upnu_{\mathrm{e}}$),
+\item neutrino muonico ($\upnu_{\upmu}$),
+\item neutrino tauonico ($\upnu_{\uptau}$)
+\end{itemize}
+e corrispondenti antiparticelle:
+\begin{itemize}
+\item antielettrone o positrone ($\mathrm{e}^{+}$),
+\item antimuone ($\upmu^{+}$),
+\item antitauone ($\uptau^{+}$),
+\item antineutrino elettronico ($\bar{\upnu}_{\mathrm{e}}$),
+\item antineutrino muonico ($\bar{\upnu}_{\upmu}$),
+\item antineutrino tauonico ($\bar{\upnu}_{\uptau}$).
+\end{itemize}
+\end{dummy}
+#+BEGIN_HTML
+</div>
+<div style="width:50%;float:left;">
+#+END_HTML
+#+BEGIN_SRC latex
+\usepackage{upgreek} % nel preambolo
+...
+La famiglia dei leptoni è costituita da
+\begin{itemize}
+\item elettrone (e),
+\item muone ($\upmu$),
+\item tauone ($\uptau$),
+\item neutrino elettronico ($\upnu_{\mathrm{e}}$),
+\item neutrino muonico ($\upnu_{\upmu}$),
+\item neutrino tauonico ($\upnu_{\uptau}$)
+\end{itemize}
+e corrispondenti antiparticelle:
+\begin{itemize}
+\item antielettrone o positrone ($\mathrm{e}^{+}$),
+\item antimuone ($\upmu^{+}$),
+\item antitauone ($\uptau^{+}$),
+\item antineutrino elettronico ($\bar{\upnu}_{\mathrm{e}}$),
+\item antineutrino muonico ($\bar{\upnu}_{\upmu}$),
+\item antineutrino tauonico ($\bar{\upnu}_{\uptau}$).
+\end{itemize}
+#+END_SRC
+#+BEGIN_HTML
+</div>
+<div style="clear:both;"></div>
+</div>
+#+END_HTML
+
+Quindi i pacchetti ~heppennames2.sty~ e ~particlessymb.sty~ permettono di
+inserire i simboli delle particelle fisiche scrivendo generalmente meno codice e
+soprattutto in maniera coerente all'interno di tutto il documento.  Oltre a ciò,
+una volta appresa la logica dello schema PEN diventa molto semplice capire con
+quale stringa si identifica una qualsiasi particella.  Di conseguenza, lo stesso
+codice sorgente LaTeX risulta più comprensibile alla lettuura poiché è facile
+riconoscere una particella dal suo comando PEN, cosa non ugualmente facile se si
+usano i complicati comandi a cui costringe il pacchetto ~upgreek.sty~.
+
+Si può scaricare il pacchetto ~particlessymb.sty~ da [[file:allow_listing/particlessymb.sty][qui]], su Github è presente
+un [[https://github.com/giordano/particlessymb.sty][repository]] in cui mantengo lo sviluppo del pacchetto e dove è possibile
+segnalare bug o fare suggerimento per migliorarlo.
+
+-----
