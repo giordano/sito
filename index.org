@@ -1,4 +1,5 @@
 #+TITLE: Mosè Giordano
+#+LINK_HOME:
 
 Documenti vari:
 - [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/, anno accademico

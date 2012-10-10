@@ -1,6 +1,4 @@
 #+TITLE: particlessymb.sty
-#+LINK_HOME: index.html
-#+LINK_UP: index.html
 #+LATEX_HEADER: \usepackage{particlessymb} \newenvironment{dummy}{}{}
 #+OPTIONS: LaTeX:dvipng
 

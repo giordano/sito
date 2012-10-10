@@ -14,5 +14,6 @@
 	 :publishing-function org-publish-org-to-html
 	 :author "Mosè Giordano"
 	 :language "it"
+	 :link-home "index.html"
 	 )
 	("sito" :components ("sito-content"))))
