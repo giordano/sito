@@ -1,32 +1,28 @@
 #+TITLE: Mosè Giordano
 #+LINK_HOME:
 
-Documenti vari:
-- [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/, anno accademico
-  2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]])
-- [[file:allow_listing/prove_fisica.pdf][Prove]] di /Fisica III/ e /Fisica IV/ ([[file:allow_listing/prove_fisica.tex][sorgente]])
-- [[file:allow_listing/prove_statistica.pdf][Prove]] di /Statistica e analisi numerica/ ([[file:allow_listing/prove_statistica.tex][sorgente]])
+*Fisica e matematica*
+- Miei documenti
+  * Tesi triennale: /Il problema dei due corpi e applicazioni astrofisiche/
+    ([[https://github.com/giordano/Tesi-triennale][repository Git]], [[https://github.com/giordano/Tesi-triennale/tarball/master][sorgente]]), [[https://github.com/downloads/giordano/Tesi-triennale/presentazione.pdf][presentazione]] della tesi
+  * Breve seminario sull'/energia oscura/ ([[https://github.com/downloads/giordano/seminario/seminario.pdf][presentazione]], [[https://github.com/giordano/seminario][repository Git]],
+    [[https://github.com/giordano/seminario/tarball/master][sorgente]])
+  * [[file:allow_listing/integrali_parametri.pdf][/Calcolo di integrali deﬁniti utilizzando integrali dipendenti da parametri/]]
+    ([[file:allow_listing/integrali_parametri.tar.bz2][sorgente]])
+- Altro
+  * [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/, anno accademico
+    2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]])
+  * [[file:allow_listing/prove_fisica.pdf][Prove d'esame]] di /Fisica III/ e /Fisica IV/ ([[file:allow_listing/prove_fisica.tex][sorgente]])
+  * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] di /Statistica e analisi numerica/, con soluzione di alcuni
+    esercizi ([[file:allow_listing/prove_statistica.tex][sorgente]])
 
-Miei documenti:
-- Tesi triennale: /Il problema dei due corpi e applicazioni astrofisiche/
-  ([[https://github.com/giordano/Tesi-triennale][repository Git]], [[https://github.com/giordano/Tesi-triennale/tarball/master][sorgente]]),
-  [[https://github.com/downloads/giordano/Tesi-triennale/presentazione.pdf][presentazione]] della tesi
-- Breve seminario sull'/energia oscura/ ([[https://github.com/downloads/giordano/seminario/seminario.pdf][presentazione]],
-  [[https://github.com/giordano/seminario][repository Git]], [[https://github.com/giordano/seminario/tarball/master][sorgente]])
-- [[file:allow_listing/integrali_parametri.pdf][/Calcolo di integrali deﬁniti utilizzando integrali dipendenti da parametri/]] ([[file:allow_listing/integrali_parametri.tar.bz2][sorgente]])
-
-$\LaTeX$:
+$\LaTeX$
 - Pacchetto [[file:allow_listing/particlessymb.sty][~particlessymb.sty~]] ([[https://github.com/giordano/particlessymb.sty][repository Git]]) per la composizione dei simboli
   delle particelle fisiche.  È basato su [[http://xml.web.cern.ch/XML/pennames/heppennames2.sty][~heppennames2.sty~]] e segue la sua
   stessa [[http://xml.web.cern.ch/XML/pennames/heppennames2.pdf][notazione]].  Fai clic [[file:particlessymb.org][qui]] per avere maggiori dettagli
 - [[https://github.com/downloads/giordano/makefile-latex/make.pdf][/Introduzione ai Makefile per compilare documenti LaTeX/]]
   ([[https://github.com/giordano/makefile-latex][repository Git]], [[https://github.com/giordano/makefile-latex/tarball/master][sorgente]])
 
-Misc:
+*Misc*
 - [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
   dei più famosi strumenti per lo sviluppo presenti in GNU Emacs
-
-Questo sito è stato realizzato con Org mode di GNU Emacs. Il codice sorgente è
-disponibile in [[https://github.com/giordano/sito][questo repository Git]].
-
------

@@ -173,5 +173,3 @@ usano i complicati comandi a cui costringe il pacchetto ~upgreek.sty~.
 Si può scaricare il pacchetto ~particlessymb.sty~ da [[file:allow_listing/particlessymb.sty][qui]], su Github è presente
 un [[https://github.com/giordano/particlessymb.sty][repository]] in cui mantengo lo sviluppo del pacchetto e dove è possibile
 segnalare bug o fare suggerimento per migliorarlo.
-
------
