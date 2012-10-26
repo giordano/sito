@@ -9,12 +9,19 @@
     [[https://github.com/giordano/seminario/tarball/master][sorgente]])
   * [[file:allow_listing/integrali_parametri.pdf][/Calcolo di integrali deﬁniti utilizzando integrali dipendenti da parametri/]]
     ([[file:allow_listing/integrali_parametri.tar.bz2][sorgente]])
-- Altro
-  * [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/, anno accademico
-    2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]])
-  * [[file:allow_listing/prove_fisica.pdf][Prove d'esame]] di /Fisica III/ e /Fisica IV/ ([[file:allow_listing/prove_fisica.tex][sorgente]])
-  * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] di /Statistica e analisi numerica/, con soluzione di alcuni
-    esercizi ([[file:allow_listing/prove_statistica.tex][sorgente]])
+- Altro (non sono opere mie originali)
+  * [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/ (corso di laurea
+    triennale in Fisica), anno accademico 2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]]).  Argomenti:
+    principio di d'Alembert ed equazioni di Lagrange, principio variazionale di
+    Hamilton ed equazioni di Lagrange, applicazioni delle equazioni di Lagrange,
+    Formalismo hamiltoniano, relatività speciale, introduzione alla meccanica
+    quantistica.  Queste dispense sono una trascrizione dei lucidi utilizzati a
+    lezione dal professore responsabile del corso.  Io ho solo sistemato un poco
+    la versione digitale delle dispense ma non ne sono l'autore.
+  * [[file:allow_listing/prove_fisica.pdf][Prove d'esame]] ([[file:allow_listing/prove_fisica.tex][sorgente]]) di /Fisica III/ e /Fisica IV/ (corso di laurea
+    triennale in Fisica)
+  * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] ([[file:allow_listing/prove_statistica.tex][sorgente]]) di /Statistica e analisi numerica/ (corso di laurea
+    triennale in Fisica), con soluzioni svolte da me di alcuni esercizi
 
 $\LaTeX$
 - Pacchetto [[file:allow_listing/particlessymb.sty][~particlessymb.sty~]] ([[https://github.com/giordano/particlessymb.sty][repository Git]]) per la composizione dei simboli
