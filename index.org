@@ -9,7 +9,7 @@
     [[https://github.com/giordano/seminario/tarball/master][sorgente]])
   * [[file:allow_listing/integrali_parametri.pdf][/Calcolo di integrali deﬁniti utilizzando integrali dipendenti da parametri/]]
     ([[file:allow_listing/integrali_parametri.tar.bz2][sorgente]])
-  * [[http://www.dmf.unisalento.it/~giordano/allow_listing/diffusione.pdf][/Introduzione alla teoria della diffusione in meccanica quantistica/]]
+  * [[file:allow_listing/diffusione.pdf][/Introduzione alla teoria della diffusione in meccanica quantistica/]]
     ([[https://github.com/giordano/diffusione-mq][repository Git]], [[https://github.com/giordano/diffusione-mq/archive/master.tar.gz][sorgente]]).  Appunti delle lezioni di Fisica teorica sullo
     scattering in meccanica quantistica.  Argomenti: forma asintotica degli
     stati stazionari, sezione d'urto, sviluppo in onde parziali e sfasamenti,
