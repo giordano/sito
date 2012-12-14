@@ -15,6 +15,24 @@
     stati stazionari, sezione d'urto, sviluppo in onde parziali e sfasamenti,
     equazione integrale della diffusione, serie di Born e approssimazione di
     Born, equazione di Lippmann-Schwinger
+  * [[./allow_listing/gravitazione.pdf][/Gravitazione e cosmologia/]] ([[https://github.com/giordano/gravitazione][repository Git]], [[https://github.com/giordano/gravitazione/tarball/master][sorgente]]).  Dispense (/non
+    ancora complete né necessariamente corrette/) del corso di Gravitazione e
+    cosmologia.  Argomenti: richiami di relatività speciale, trasformazioni di
+    Lorentz, calcolo tensoriale nello spazio di Minkowski, dinamica
+    particellare, formulazione covariante dell'elettrodinamica, equazioni di
+    Eulero-Lagrange di un campo e tensore energia-impulso, fluido perfetto
+    relativistico; principio di equivalenza, equazione del moto di una
+    particella in un campo gravitazionale, tensore metrico e connessione affine,
+    limite newtoniano, campo gravitomagnetico, effetto Lense-Thirring,
+    dilatazione gravitazionale del tempo e red-shift, principio di generale
+    covarianza; calcolo tensoriale nella relatività generale, tensori,
+    connessione affine, derivazione covariante, differenziale covariante,
+    effetto De Sitter; tensore di Riemann, curvatura dello spazio, equazione di
+    deviazione geodetica, equazioni di Einstein e limite newtoniano, metrica di
+    Schwarzschild, verifiche sperimentali della relatività generale (precessione
+    del perielio, deflessione della luce, ritardo dei segnali radar); onde
+    gravitazionali nel vuoto e in presenza di masse in moto, tecniche di
+    rivelazione e sorgenti delle onde gravitazionali.
 - Altro (non sono opere mie originali)
   * [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/ (corso di laurea
     triennale in Fisica), anno accademico 2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]]).  Argomenti:
