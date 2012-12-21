@@ -51,8 +51,9 @@ $\LaTeX$
 - Pacchetto [[file:allow_listing/particlessymb.sty][~particlessymb.sty~]] ([[https://github.com/giordano/particlessymb.sty][repository Git]]) per la composizione dei simboli
   delle particelle fisiche.  È basato su [[http://xml.web.cern.ch/XML/pennames/heppennames2.sty][~heppennames2.sty~]] e segue la sua
   stessa [[http://xml.web.cern.ch/XML/pennames/heppennames2.pdf][notazione]].  Fai clic [[file:particlessymb.org][qui]] per avere maggiori dettagli
-- [[https://github.com/downloads/giordano/makefile-latex/make.pdf][/Introduzione ai Makefile per compilare documenti LaTeX/]]
-  ([[https://github.com/giordano/makefile-latex][repository Git]], [[https://github.com/giordano/makefile-latex/tarball/master][sorgente]])
+- [[http://www.guitex.org/home/images/doc/GuideGuIT/guidamake.pdf][/Introduzione ai Makefile per compilare documenti LaTeX/]] ([[https://github.com/GuITeX/guidamakefilelatex][repository Git]],
+  [[https://github.com/GuITeX/guidamakefilelatex/tarball/master][sorgente]]), pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo
+  utilizzatori Italiani di TeX)
 
 *Misc*
 - [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
