@@ -58,3 +58,5 @@ $\LaTeX$
 *Misc*
 - [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
   dei più famosi strumenti per lo sviluppo presenti in GNU Emacs
+- [[https://github.com/giordano/auctex-styles][Miei file di stile]] per [[https://www.gnu.org/software/auctex/][AUCTeX]].  I file [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/bm.el?root%3Dauctex][~bm.el~]] e [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/siunitx.el?root%3Dauctex][~siunitx.el~]] sono stati
+  inclusi nella versione ufficiale di AUCTeX
