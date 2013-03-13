@@ -54,6 +54,9 @@ $\LaTeX$
 - [[http://www.guitex.org/home/images/doc/GuideGuIT/guidamake.pdf][/Introduzione ai Makefile per compilare documenti LaTeX/]] ([[https://github.com/GuITeX/guidamakefilelatex][repository Git]],
   [[https://github.com/GuITeX/guidamakefilelatex/tarball/master][sorgente]]), pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo
   utilizzatori Italiani di TeX)
+- [[http://www.guitex.org/home/images/doc/GuideGuIT/guidaemacsauctex.pdf][/Guida pratica all'uso di GNU Emacs e AUCTeX/]] ([[https://github.com/GuITeX/guidaemacsauctex][repository Git]], [[https://github.com/GuITeX/guidaemacsauctex/tarball/master][sorgente]]),
+  pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo utilizzatori Italiani
+  di TeX).  Scritta in collaborazione con Orlando Iovino e Matteo Leccardi
 
 *Emacs*
 - [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
