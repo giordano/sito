@@ -7,6 +7,11 @@
     ([[https://github.com/giordano/Tesi-triennale][repository Git]], [[https://github.com/giordano/Tesi-triennale/tarball/master][sorgente]]), [[https://github.com/downloads/giordano/Tesi-triennale/presentazione.pdf][presentazione]] della tesi
   * Breve seminario sull'/energia oscura/ ([[https://github.com/downloads/giordano/seminario/seminario.pdf][presentazione]], [[https://github.com/giordano/seminario][repository Git]],
     [[https://github.com/giordano/seminario/tarball/master][sorgente]])
+  * Seminario su progressi recenti (6 maggio 2013) nello studio dei raggi
+    cosmici ([[file:allow_listing/raggi_cosmici.pdf][presentazione]], [[https://github.com/giordano/seminario-raggi-cosmici][repository Git]], [[https://github.com/giordano/seminario-raggi-cosmici/tarball/master][sorgente]]).  In particolare, sono
+    presentati i risultati degli esperimenti FERMI-LAT (sulle sorgenti delle
+    particelle accelerate) e AMS-02 (sull'eccesso della frazione di positroni
+    nei raggi cosmici).
   * [[file:allow_listing/integrali_parametri.pdf][/Calcolo di integrali deﬁniti utilizzando integrali dipendenti da parametri/]]
     ([[file:allow_listing/integrali_parametri.tar.bz2][sorgente]])
   * [[file:allow_listing/diffusione.pdf][/Introduzione alla teoria della diffusione in meccanica quantistica/]]
