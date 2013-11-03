@@ -62,11 +62,14 @@ $\LaTeX$
 - [[http://www.guitex.org/home/images/doc/GuideGuIT/guidaemacsauctex.pdf][/Guida pratica all'uso di GNU Emacs e AUCTeX/]] ([[https://github.com/GuITeX/guidaemacsauctex][repository Git]], [[https://github.com/GuITeX/guidaemacsauctex/tarball/master][sorgente]]),
   pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo utilizzatori Italiani
   di TeX).  Scritta in collaborazione con Orlando Iovino e Matteo Leccardi
+- [[http://www.guitex.org/home/images/doc/GuideGuIT/guidagit.pdf][/Una guida introduttiva a Git per progetti LaTeX/]] ([[https://github.com/GuITeX/guidagit][repository Git]], [[https://github.com/GuITeX/guidagit/tarball/master][sorgente]]),
+  pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo utilizzatori Italiani
+  di TeX).  Scritta in collaborazione con Pietro Giuffrida
 
 *Emacs*
 - [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
   dei più famosi strumenti per lo sviluppo presenti in GNU Emacs
-- [[https://github.com/giordano/auctex-styles][Miei file di stile]] per [[https://www.gnu.org/software/auctex/][AUCTeX]].  I file [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/biblatex.el?root%3Dauctex][~biblatex.el~]], [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/bm.el?root%3Dauctex][~bm.el~]], [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/imakeidx.el?root%3Dauctex][~imakeidx.el~]],
-  [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/kantlipsum.el?root%3Dauctex][~kantlipsum~]], [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/kpfonts.el?root%3Dauctex][~kpfonts.el~]], [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/lipsum.el?root%3Dauctex][~lipsum~]], [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/longtable.el?root%3Dauctex][~longtable~]] e [[http://cvs.savannah.gnu.org/viewvc/*checkout*/auctex/style/siunitx.el?root%3Dauctex][~siunitx.el~]] sono stati
+- [[https://github.com/giordano/auctex-styles][Miei file di stile]] per [[https://www.gnu.org/software/auctex/][AUCTeX]].  I file [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/biblatex.el][~biblatex.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/bm.el][~bm.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/imakeidx.el][~imakeidx.el~]],
+  [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/kantlipsum.el][~kantlipsum~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/kpfonts.el][~kpfonts.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/lipsum.el][~lipsum~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/longtable.el][~longtable~]] e [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/siunitx.el][~siunitx.el~]] sono stati
   inclusi nella versione ufficiale di AUCTeX
 - [[https://github.com/giordano/dotemacs][Miei file di inizializzazione]] per [[https://www.gnu.org/software/emacs/][Emacs]]
