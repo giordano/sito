@@ -1,6 +1,6 @@
 #+TITLE: particlessymb.sty
 #+LATEX_HEADER: \usepackage{particlessymb} \newenvironment{dummy}{}{}
-#+OPTIONS: LaTeX:dvipng
+#+OPTIONS: tex:dvipng
 
 Il pacchetto ~particlessymb.sty~ è un pacchetto per LaTeX che consente di
 inserire in maniera semplice i simboli delle particelle fisiche.  Secondo la

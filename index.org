@@ -1,5 +1,5 @@
 #+TITLE: Mosè Giordano
-#+LINK_HOME:
+#+HTML_LINK_HOME:
 
 *Fisica e matematica*
 - Miei documenti
@@ -51,6 +51,9 @@
     triennale in Fisica)
   * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] ([[file:allow_listing/prove_statistica.tex][sorgente]]) di /Statistica e analisi numerica/ (corso di laurea
     triennale in Fisica), con soluzioni svolte da me di alcuni esercizi
+
+*Fortran*
+- [[file:fortran-debug.org][Fare il debug di programmi ~Fortran~ con GDB]]
 
 $\LaTeX$
 - Pacchetto [[file:allow_listing/particlessymb.sty][~particlessymb.sty~]] ([[https://github.com/giordano/particlessymb.sty][repository Git]]) per la composizione dei simboli

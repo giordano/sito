@@ -1,17 +1,24 @@
 ;; aggiungi al file di inizializzazione ~/.emacs questo codice
-;; 	(load-file "~/Documenti/sito/sito")
+;; 	(load-file "~/repo/sito/sito")
 ;; per caricare automaticamente questo file.  In questo modo puoi pubblicare il
 ;; sito semplicemente con `C-c C-e P' dentro un buffer dei file *.org del
 ;; progetto.
 
 ;; Con quel poco di elisp che conosco ho definito una funzione che dovrebbe
 ;; stampare correttamente il postambolo così come voglio io.  La funzione è
-;; assegnata come valore di `:html-postamble', più sotto
-(defun postambolo-sito () (concat "\
+;; assegnata come valore di `:html-postamble', più sotto.  Per ottenere l'autore
+;; e la data mi sono basato sulla funzione `org-html-format-spec'.
+(defun postambolo-sito (info)
+  (concat "\
 <div style=\"font-size: smaller; background: #f2f2f9; border: 2px solid #3366cc;
             border-style: solid; border-width: thin; padding: 4px;\">
-<p class=\"author\">Autore: " author "</p>
-<p class=\"date\">Ultima modifica: " date "</p>
+<p class=\"author\">Autore: " (org-export-data (plist-get info :author) info)
+"</p>
+<p class=\"date\">Ultima modifica: "
+(let ((file (plist-get info :input-file)))
+  (format-time-string org-html-metadata-timestamp-format
+		      (if file (nth 5 (file-attributes file))
+			(current-time)))) "</p>
 <p class=\"creator\">Generato da <a href=\"http://orgmode.org/\">Org mode</a> \
 versione " org-version " con <a href=\"http://www.gnu.org/software/emacs/\">GNU \
 Emacs</a> versione " emacs-version ".  \
@@ -32,12 +39,12 @@ diversamente specificato</p>
 (setq org-publish-project-alist
       '(
 	("sito-content"
-	 :base-directory "~/Documenti/sito"
+	 :base-directory "~/repo/sito"
 	 :base-extension "org"
 	 :publishing-directory "/ssh:infn:html/"
-	 :publishing-function org-publish-org-to-html
+	 :publishing-function org-html-publish-to-html
 	 :author "Mosè Giordano"
 	 :language "it"
-	 :link-home "index.html"
+	 :html-link-home "index.html"
 	 :html-postamble postambolo-sito)
 	("sito" :components ("sito-content"))))

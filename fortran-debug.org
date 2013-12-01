@@ -1,0 +1,244 @@
+#+TITLE: Fare il debugging di programmi Fortran con GDB
+#+STARTUP: showall
+
+* Introduzione
+
+Il metodo più semplice per eseguire il [[https://it.wikipedia.org/wiki/Debugging][debugging]] (o debug) di un programma
+scritto in qualsiasi linguaggio di programmazione consiste nell’aggiungere delle
+istruzioni di scrittura su schermo per indicare il passaggio del programma da
+quel punto oppure il risultato dell’operazione appena svolta, ecc...  Alcuni
+strumenti, chiamati [[https://it.wikipedia.org/wiki/Debugger][debugger]], consentono di svolgere un’analisi più raffinata,
+infatti generalmente permettono di svolgere funzioni fra le quali:
+- specificare le condizioni in cui il programma viene lanciato;
+- eseguire interattivamente un programma istruzione per istruzione o fino a una
+  determinata condizione;
+- verificare in ogni momento cosa avviene e controllare lo stato della memoria;
+- correggere in maniera rapida il codice sorgente del programma.
+Inoltre in alcuni casi (per esempio se si usano delle opzioni di ottimizzazione
+particolarmente spinte) le istruzioni di stampa su schermo possono alterare il
+valore che una variabile assume all’interno del programma, rendendo di
+conseguenza difficile l’analisi dei problemi.
+
+Qui vedremo come svolgere alcune operazioni di debugging di base usando [[https://www.gnu.org/software/gdb/][GDB]], in
+particolare di programmi Fortran, ma in realtà le istruzioni di GDB sono
+indipendenti dal linguaggio adottato.  È ovviamente necessario installare GDB
+sul proprio sistema, ma questo problema non verrà qui trattato.
+
+Questa breve guida si basa sul materiale presente qui
++ http://www.montellug.it/wiki/images/5/58/Gdb.pdf‎
++ http://infohost.nmt.edu/tcc/help/lang/fortran/gdb.html
+
+* Compilare il programma
+
+Per prima cosa, dopo aver scritto il codice sorgente, bisogna naturalmente
+compilarlo.  Affinché un debbugger possa analizzare il programma, quest’ultimo
+deve contenere delle opportune informazioni che il debugger possa leggere.  Come
+queste informazioni sono aggiunte dipende dal compilatore usato.  Per esempio,
+con i compilatori GNU, come ~gcc~ e ~gfortran~, bisogna aggiungere l’opzione di
+compilazione ~-g~.  Alcune ottimizzazioni (flag del tipo ~-Ox~ in ~gfortran~ e
+~gcc~) possono rendere difficile l’operazione di debugging, pr questo motivo è
+consigliabile disattivare le ottimizzazioni quando si effettua il debug.  In
+~gfortran~ e ~gcc~ si può fare ciò con l’opzione ~-O0~.  Altre opzioni di
+~gfortran~ per fornire ulteriori informazioni utili al debugger sono riportati
+[[http://gcc.gnu.org/onlinedocs/gfortran/Debugging-Options.html#Debugging-Options][qui]] (~(info "(gfortran)Debugging Options")~), mentre [[http://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html#Debugging-Options][qui]] (~(info "(gcc)Debugging
+Options")~) sono riportate le opzioni generiche di ~gcc~.  In particolare [[http://stackoverflow.com/questions/3676322/what-flags-do-you-set-for-your-gfortran-debugger-compiler-to-catch-faulty-code][qui]] si
+possono vedere le opzioni maggiormente consigliate.  Infine [[http://fortranwiki.org/fortran/show/Debugging+tools][qui]] sono raccolte le
+istruzioni per altri compilatori.
+
+Ricapitolando, per fare in modo che il debugger possa analizzare il programma
+bisogna compilare con (usando ~gfortran~ nell’esempio)
+#+BEGIN_SRC fundamental
+$ gfortran -g -o program source.f
+#+END_SRC
+oppure, volendo ottenere un maggior dettaglio delle informazioni,
+#+BEGIN_SRC fundamental
+$ gfortran -g -O0 -Wall -Wextra -pedantic -fbounds-check -fimplicit-none -fbacktrace -o program source.f
+#+END_SRC
+
+* Debug con ~gdb~
+
+** Avviare e arrestare l’esecuzione del programma
+
+Per lanciare ~gdb~ bisogna eseguire il comando
+#+BEGIN_SRC fundamental
+$ gdb program
+#+END_SRC
+Si avvierà ~gdb~ in modalità interattiva, con ~(gdb)~ come prompt.  In GDB è
+disponibile l’autocompletamento dei comandi con il tasto ~TAB~.  Il comando
+([[https://sourceware.org/gdb/current/onlinedocs/gdb/Starting.html#Starting][~(info "(gdb)Starting")~]])
+#+BEGIN_SRC fundamental
+(gdb) run
+#+END_SRC
+eseguirà il programma specificato da linea di comando fino alla fine, oppure
+fino al punto in cui esso crasha oppure fino al successivo punto di arresto.
+Vedremo nel prossimo paragrafo come si riprende l’esecuzione del programma dopo
+un arresto.
+
+In GDB, i punti di arresto si dividono in
++ /breakpoint/: un breakpoint permette di arrestare il programma in
+  corrispondenza di una certa condizione, che può essere l’entrata all’interno
+  di una precisa funzione, l’esecuzione di una particolare riga di codice o
+  istruzione;
++ /watchpoint/: un watchpoint arresta il programma quando il valore di una
+  variabile, o di una espressione contenente una o più variabili, cambia;
++ /catchpoint/: con un catchpoint si arresta l’esecuzione quando si verifica un
+  determinato evento (per esempio, caricamento di una libreria oppure emisione
+  di un errore).
+
+I breakpoints possono essere specificati manualmente con il comando ~break~
+([[https://sourceware.org/gdb/current/onlinedocs/gdb/Set-Breaks.html#Set-Breaks][~(info "(gdb)Set Breaks")~]]).  Per esempio,
+#+BEGIN_SRC fundamental
+(gdb) break probability
+#+END_SRC
+crea un punto di arresto quando si richiama la funzione ~probability~ .
+
+I whatchpoints possono essere specificati manualmente con il comando ~watch~
+([[https://sourceware.org/gdb/current/onlinedocs/gdb/Set-Watchpoints.html#Set-Watchpoints][~(info "(gdb)Set Watchpoints")~]]).  Per esempio,
+#+BEGIN_SRC fundamental
+(gdb) watch m1+m2
+#+END_SRC
+arresta il programma quando cambia il valore della somma delle variabili ~m1~ ed
+~m2~.
+
+I whatchpoints possono essere specificati manualmente con il comando ~catch~
+([[https://sourceware.org/gdb/current/onlinedocs/gdb/Set-Catchpoints.html#Set-Catchpoints][~(info "(gdb)Set Catchpoints")~]]).  Per esempio,
+#+BEGIN_SRC fundamental
+(gdb) catch syscall
+#+END_SRC
+arresta il programma quando viene eseguita una [[https://it.wikipedia.org/wiki/Chiamata_di_sistema][chiamata di sistema]].
+
+I punti d’arresto vanno specificati prima di avviare o riprendere l’esecuzione
+del programma.  Quindi, per arrestare l’esecuzione del programma già all’avvio
+del programma bisogna creare un breakpoint in corrispondenza della funzione
+d’entrata, chiamata ~main~ in Fortran e C (~main~ è il nome con cui ~gfortran~ e
+altri compilatori Fortran [[http://gcc.gnu.org/onlinedocs/gcc-4.8.2/gfortran/Non_002dFortran-Main-Program.html#Non_002dFortran-Main-Program][chiamano]] la funzione principale del programma,
+indipendentemente dal nome specificato per ~PROGRAM~) prima di eseguire il
+comando ~run~.  In questo caso il comando da usare il breakpoint sarà ~break
+main~.
+
+Riepilogando, per creare un breakpoint subito dopo l’avvio di un programma
+Fortran o C e avviare la sua esecuzione bisogna eseguire in ~gdb~ i comandi
+#+BEGIN_SRC fundamental
+(gdb) break main
+(gdb) run
+#+END_SRC
+
+** Riprendere e avanzare l’esecuzione
+
+Dopo che il programma ha ha raggiunto un punto di arresto, la sua esecuzione può
+essere ripresa fino al successivo punto di arresto con il comando ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Continuing-and-Stepping.html#Continuing-and-Stepping][~(info
+"(gdb)Continuing and Stepping")~]])
+#+BEGIN_SRC fundamental
+(gdb) continue
+#+END_SRC
+
+Si può anche far avanzare il programma istruzione per istruzione, grazie al
+comando
+#+BEGIN_SRC fundamental
+(gdb) step
+#+END_SRC
+che mostrerà sullo schermo la riga di codice che sta per essere eseguita, con il
+numero riportato sulla sinistra.  Questo è utile per seguire passo passo
+l’esecuzione e in particolare controllare il comportamento in cicli e
+diramazioni condizionali.  Se viene chiamata un’altra funzione, ~step~ entrerà
+in quella funzione.  Se si specifica un argomento numerico ~n~ al comando
+~step~, si chiederà a ~gdb~ di avanzare ~n~ istruzioni eseguibili.  Quindi
+#+BEGIN_SRC fundamental
+(gdb) step 7
+#+END_SRC
+faranno eseguire al programma le 7 successive istruzioni.
+
+Il comando
+#+BEGIN_SRC fundamental
+(gdb) next
+#+END_SRC 
+è analogo a ~step~ ma non entra all’interno di una funzione quando questa viene
+chiamata.  Anche ~next~ accetta un argomento numerico come ~step~.
+
+Il comando
+#+BEGIN_SRC fundamental
+(gdb) finish
+#+END_SRC 
+esegue la funzione corrente fino alla fine.
+
+** Visualizzare e modificare il valore di una variabile
+
+A ogni breakpoint è possibile conoscere il valore corrente di una variabile
+grazie al comando ~print~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Data.html#Data][~(info "(gdb)Data")~]]).  Per esempio
+#+BEGIN_SRC fundamental
+(gdb) print foobar
+#+END_SRC
+mostrerà a schermo il valore della variabile ~foobar~.  Si possono anche
+mostrare espressioni più complesse che coinvolgono le quattro funzioni
+aritmetiche fondamentali e l’elevazione a potenza.  Per esempio
+#+BEGIN_SRC fundamental
+(gdb) print pi
+$1 = 3.1415926535897931
+(gdb) print (pi+5)**2/(3*pi-1)
+$2 = 7.8679261632355075
+#+END_SRC
+~print~ può anche essere usato per modificare il valore di una variabile e
+mostrare il risultato sullo schermo durante l’esecuzione, con la sintassi ~print
+variabile=valore~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Assignment.html#Assignment][~(info "(gdb)Assignment")~]]).  Per esempio
+#+BEGIN_SRC fundamental
+(gdb) print pi
+$1 = 6.1415926535897931
+(gdb) print p=3.1415926535897931
+$2 = 3.1415926535897931
+#+END_SRC
+Anche il comando ~set variabile=valore~ cambia il valore di una variabile ma non
+stampa il valore sullo schermo.
+
+** Scoprire il contesto del codice sorgente
+
+Il comando ~backtrace~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Backtrace.html#Backtrace][~(info "(gdb)Backtrace")~]]) permette di conoscere il nome
+della funzione, della riga di codice e del file sorgente a cui si è fermata
+l’esecuzione del programma in ~gdb~.  Il comando in realtà ha un uso più
+avanzato, quello qui descritto è semplificato, si consulti il manuale per
+maggiori dettagli.  Un alias, forse più significativo, del comando è ~where~.
+Se per esempio l’output è
+#+BEGIN_SRC fundamental
+(gdb) backtrace
+#0  MAIN__ () at source.f:30
+#+END_SRC
+significa che ci si trova alla trentesima riga del file ~source.f~, nella
+funzione ~main~ (che ricordiamo coincide con il ~PROGRAM~).
+
+Si possono mostrare a schermo alcune righe del contesto del codice sorgente con
+il comando
+#+BEGIN_SRC fundamental
+(gdb) list
+#+END_SRC
+Il comando ~list~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/List.html#List][~(info "(gdb)List")~]]) accetta argomenti numerici in diversi
+formati per mostrare cose diverse, per esempio
+#+BEGIN_SRC fundamental
+(gdb) list 324
+#+END_SRC
+mostra alcune righe centrate attorno alla numero 324, mentre con
+#+BEGIN_SRC fundamental
+(gdb) list 58,76
+#+END_SRC
+si possono vedere le righe di codice che vanno dalla numero 58 alla numero 76.
+Per maggiori dettagli consultare il manuale.
+
+** Uscire da ~gdb~
+
+Infine, per uscire da ~gdb~ si usa il comando
+#+BEGIN_SRC fundamental
+(gdb) quit
+#+END_SRC
+Se il programma è ancora in esecuzione, bisogna prima ucciderlo con
+#+BEGIN_SRC fundamental
+(gdb) kill
+#+END_SRC
+Se non si esegue il comando ~kill~ mentre il programma è in esecuzione, verrà
+richiesta una conferma
+#+BEGIN_SRC fundamental
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 5121] will be killed.
+
+Quit anyway? (y or n)
+#+END_SRC
+Inserire ~y~ e premere ~INVIO~ per uscire.
