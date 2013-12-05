@@ -3,30 +3,42 @@
 
 * Introduzione
 
-Il metodo più semplice per eseguire il [[https://it.wikipedia.org/wiki/Debugging][debugging]] (o debug) di un programma
-scritto in qualsiasi linguaggio di programmazione consiste nell’aggiungere delle
-istruzioni di scrittura su schermo per indicare il passaggio del programma da
-quel punto oppure il risultato dell’operazione appena svolta, ecc...  Alcuni
-strumenti, chiamati [[https://it.wikipedia.org/wiki/Debugger][debugger]], consentono di svolgere un’analisi più raffinata,
-infatti generalmente permettono di svolgere funzioni fra le quali:
+Il metodo più semplice per eseguire il /[[https://it.wikipedia.org/wiki/Debugging][debugging]]/ (o /debug/) di un programma
+consiste nell’aggiungere al codice sorgente delle istruzioni di scrittura su
+schermo per indicare il passaggio del programma da quel punto oppure
+visualizzare il risultato dell’operazione appena svolta, ecc...  Alcuni
+strumenti, chiamati /[[https://it.wikipedia.org/wiki/Debugger][debugger]]/, consentono di eseguire un’analisi più raffinata.
+Questi, infatti, generalmente permettono di svolgere diverse funzioni, fra le
+quali:
 - specificare le condizioni in cui il programma viene lanciato;
 - eseguire interattivamente un programma istruzione per istruzione o fino a una
   determinata condizione;
 - verificare in ogni momento cosa avviene e controllare lo stato della memoria;
 - correggere in maniera rapida il codice sorgente del programma.
-Inoltre in alcuni casi (per esempio se si usano delle opzioni di ottimizzazione
-particolarmente spinte) le istruzioni di stampa su schermo possono alterare il
-valore che una variabile assume all’interno del programma, rendendo di
-conseguenza difficile l’analisi dei problemi.
 
-Qui vedremo come svolgere alcune operazioni di debugging di base usando [[https://www.gnu.org/software/gdb/][GDB]], in
-particolare di programmi Fortran, ma in realtà le istruzioni di GDB sono
+Uno dei tanti aspetti utili dei debugger consiste nel fatto che analizzano il
+programma senza doverne modificare il codice sorgente.  Infatti, in alcuni casi
+(per esempio se si usano delle opzioni di ottimizzazione particolarmente spinte)
+aggiungere al codice sorgente istruzioni di stampa su schermo può alterare il
+valore che una variabile assume all’interno del programma, rendendo di
+conseguenza difficile l’analisi dei problemi con questo rozzo metodo.
+
+Qui vedremo come svolgere alcune semplici operazioni di debugging di base usando
+[[https://www.gnu.org/software/gdb/][GDB]], in particolare di programmi Fortran, ma in realtà i comandi di GDB sono
 indipendenti dal linguaggio adottato.  È ovviamente necessario installare GDB
 sul proprio sistema, ma questo problema non verrà qui trattato.
 
 Questa breve guida si basa sul materiale presente qui
 + http://www.montellug.it/wiki/images/5/58/Gdb.pdf‎
 + http://infohost.nmt.edu/tcc/help/lang/fortran/gdb.html
+
+Il manuale completo di GDB è consultabile sul proprio sistema tramite ~info~,
+con il comando
+#+BEGIN_SRC fundamental
+$ info gdb 
+#+END_SRC
+oppure su Internet all’indirizzo
+https://sourceware.org/gdb/current/onlinedocs/gdb/.
 
 * Compilare il programma
 
@@ -59,13 +71,16 @@ $ gfortran -g -O0 -Wall -Wextra -pedantic -fbounds-check -fimplicit-none -fbackt
 
 ** Avviare e arrestare l’esecuzione del programma
 
-Per lanciare ~gdb~ bisogna eseguire il comando
+GDB è un programma che si usa da linea di comando, però è possibile utilizzarlo
+anche mediante alcuni editor di testo e IDE.  Per lanciarlo bisogna eseguire in
+un terminale
 #+BEGIN_SRC fundamental
 $ gdb program
 #+END_SRC
-Si avvierà ~gdb~ in modalità interattiva, con ~(gdb)~ come prompt.  In GDB è
-disponibile l’autocompletamento dei comandi con il tasto ~TAB~.  Il comando
-([[https://sourceware.org/gdb/current/onlinedocs/gdb/Starting.html#Starting][~(info "(gdb)Starting")~]])
+usando come argomento il nome del programma da analizzare, ~program~
+nell’esempio.  Si avvierà ~gdb~ in modalità interattiva, con ~(gdb)~ come
+prompt.  In GDB è disponibile l’autocompletamento dei comandi con il tasto
+~TAB~.  Il comando ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Starting.html#Starting][~(info "(gdb)Starting")~]])
 #+BEGIN_SRC fundamental
 (gdb) run
 #+END_SRC
@@ -163,8 +178,8 @@ esegue la funzione corrente fino alla fine.
 
 ** Visualizzare e modificare il valore di una variabile
 
-A ogni breakpoint è possibile conoscere il valore corrente di una variabile
-grazie al comando ~print~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Data.html#Data][~(info "(gdb)Data")~]]).  Per esempio
+A ogni punto di arresto è possibile conoscere il valore corrente di una
+variabile grazie al comando ~print~ ([[https://sourceware.org/gdb/current/onlinedocs/gdb/Data.html#Data][~(info "(gdb)Data")~]]).  Per esempio
 #+BEGIN_SRC fundamental
 (gdb) print foobar
 #+END_SRC
