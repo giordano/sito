@@ -1,0 +1,119 @@
+#+TITLE: Emacs Lisp implementation of Diceware
+#+STARTUP: showall
+#+LANGUAGE: en
+
+* What Is Diceware?
+
+From the [[http://world.std.com/~reinhold/diceware.html][Arnold G. Reinhold’s site]]:
+#+BEGIN_QUOTE
+Diceware™ is a method for picking passphrases that uses dice to select words at
+random from a special list called the Diceware Word List.  Each word in the list
+is preceded by a five digit number.  All the digits are between one and six,
+allowing you to use the outcomes of five dice rolls to select one unique word
+from the list.
+
+Here is a short excerpt from the Diceware word list:
+
+ 16655 clause \\
+ 16656 claw \\
+ 16661 clay \\
+ 16662 clean \\
+ 16663 clear \\
+ 16664 cleat \\
+ 16665 cleft \\
+ 16666 clerk \\
+ 21111 cliche \\
+ 21112 click \\
+ 21113 cliff \\
+ 21114 climb \\
+ 21115 clime \\
+ 21116 cling \\
+ 21121 clink \\
+ 21122 clint \\
+ 21123 clio \\
+ 21124 clip \\
+ 21125 clive \\
+ 21126 cloak \\
+ 21131 clock
+#+END_QUOTE
+
+* Using Diceware
+<<using-diceware>>
+
+Again, from the Arnold’s site:
+#+BEGIN_QUOTE
+To use the Diceware list you will need one or more dice.  Dice come with many
+board games and are sold separately at toy, hobby, and magic stores. Toys"R"Us
+sells a package of five dice for about a dollar.  Braille dice are also
+avaliable.  You can purchase five casino-grade dice online from Casinocom.com
+for about $11, but they are overkill for this purpose.  */[[http://world.std.com/~reinhold/dicewarefaq.html#electronic][Do not use a computer
+program or electronic dice generator]]/*.
+
+1. Download the complete [[http://world.std.com/~reinhold/diceware.wordlist.asc][Diceware list]] or the [[http://world.std.com/~reinhold/beale.wordlist.asc][alternative Beale list]] and save it
+   on your computer.  Print it out if you like . Then return to this page with
+   the "Back" button on your browser.
+
+2. Decide how many words you want in your passphrase.  A five word passphrase
+   provides a level of security much higher than the simple passwords most
+   people use.  We recommend a minimum of six words for use with Hushmail,
+   wireless security and file encryption programs.  A seven word pass phrase is
+   thought to make attacks on your passphrase infeasible through 2033.  For more
+   information, see the [[http://world.std.com/~reinhold/dicewarefaq.html#howlong][Diceware FAQ]].
+
+3. Now roll the dice and write down the results on a slip of paper.  Write the
+   numbers in groups of five.  Make as many of these five-digit groups as you
+   want words in your passphrase.  You can roll one die five times or roll five
+   dice once, or any combination in between.  If you do roll several dice at a
+   time, read the dice from left to right.
+
+4. Look up each five digit number in the Diceware list and find the word next to
+   it.  For example, 21124 means your next passphrase word would be "clip" (see
+   the excerpt from the list, above).
+
+5. When you are done, the words that you have found are your new passphrase.
+   Memorize them and then either destroy the scrap of paper or keep it in a
+   really safe place.  That's all there is to it!
+#+END_QUOTE
+
+Since I
++ don’t want to spend 11$ to buy a casino-grade dice,
++ am too lazy to roll a dice two dozens of times,
++ don’t care too much about the "Do not use a computer program" advice,
++ am an Emacs addict,
+I wrote a small Emacs Lisp function (it’s less than 40 lines, including
+docstring and comments) to make the extensible, customizable, etc... editor roll
+the dice for me and generate a passphrase.
+
+* Using =diceware.el=
+
+If you’d like to use my Emacs Lisp implementation of Diceware[fn:disclaimer]
+download [[https://raw.github.com/giordano/diceware-el/master/diceware.el][=diceware.el=]] in a [[http://www.emacswiki.org/emacs/LoadPath][=load-path=]] directory and add the following to your
+=.emacs=
+#+BEGIN_SRC emacs-lisp
+(autoload 'diceware "diceware" nil t)
+#+END_SRC
+Then, you’ll be able to insert a diceware passphrase at point in Emacs with =M-x
+diceware RET=.  You’ll be requested to select a diceware word list in text
+format (see step 1 in section [[using-diceware]], word lists in languages different
+from English are available [[http://world.std.com/~reinhold/diceware.html#languages][here]]) and indicate the number of words of the
+passphrase.  You can also insert more than one passphrase (one per line) giving
+to =M-x diceware= a numeric prefix argument.  E.g., =C-5 M-x diceware RET= will
+insert five passphrases.
+
+The =diceware= function can be used in a Lisp program with the syntax
+#+BEGIN_SRC emacs-lisp
+(diceware WORDLIST NUMBER &optional ARG)
+#+END_SRC
+being
++ =WORDLIST= a string with the path of diceware word list file,
++ =NUMBER= the number (positive integer) of words making the passphrase,
++ =ARG= the number (positive integer) of passphrases to be inserted, one per
+  line.
+
+=diceware.el= is released under GPL v3+ and you can hack on it checking out my
+GitHub repo at https://github.com/giordano/diceware-el.
+
+[fn:disclaimer] Do it at your own risk, I only promise I will not sniff your
+passphrases (no Internet connection is required to run the function)!  Please,
+be aware Emacs’ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Random-Numbers.html][=random=]] function (employed in =diceware=) generates
+pseudo-random number using a deterministic algorithm.
