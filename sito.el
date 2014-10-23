@@ -46,5 +46,6 @@ diversamente specificato</p>
 	 :author "Mosè Giordano"
 	 :language "it"
 	 :html-link-home "index.html"
-	 :html-postamble postambolo-sito)
+	 :html-postamble postambolo-sito
+	 :with-smart-quotes nil)
 	("sito" :components ("sito-content"))))
