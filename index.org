@@ -52,6 +52,10 @@
   * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] ([[file:allow_listing/prove_statistica.tex][sorgente]]) di /Statistica e analisi numerica/ (corso di laurea
     triennale in Fisica), con soluzioni svolte da me di alcuni esercizi
 
+*Poster*
+- [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-poster.pdf][Poster]] per il [[http://www.nordicastrobiology.net/Exoplanets2014/General.html][Summer Course on Exoplanets (2014)]], tenutosi a [[https://it.wikipedia.org/wiki/La_Palma][La Palma]] (Isole
+  Canarie, Spagna) e relative [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-presentation.tar.gz][slide]] della presentazione
+
 *Fortran*
 - [[file:fortran-debug.org][Fare il debug di programmi ~Fortran~ con GDB]]
 
