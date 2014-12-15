@@ -38,6 +38,9 @@
     del perielio, deflessione della luce, ritardo dei segnali radar); onde
     gravitazionali nel vuoto e in presenza di masse in moto, tecniche di
     rivelazione e sorgenti delle onde gravitazionali
+  * [[./allow_listing/wiener.pdf][/Introduction to Wiener Filtering/]] ([[https://github.com/giordano/wiener-filter][Git repository]], [[https://github.com/giordano/wiener-filter/tarball/master][source]]).  Short
+    presentation about Wiener Filtering to process images and signals in
+    general.
 - Altro (non sono opere mie originali)
   * [[file:allow_listing/intro_fisica_moderna.pdf][Dispense]] del corso di /Introduzione alla Fisica Moderna/ (corso di laurea
     triennale in Fisica), anno accademico 2008-2009 ([[file:allow_listing/intro_fisica_moderna.tar.xz][sorgente]]).  Argomenti:
