@@ -84,3 +84,13 @@ $\LaTeX$
   inclusi nella versione ufficiale di AUCTeX
 - [[https://github.com/giordano/dotemacs][Miei file di inizializzazione]] per [[https://www.gnu.org/software/emacs/][Emacs]]
 - [[file:emacs-diceware.org][Emacs Lisp implementation of Diceware]] (in inglese)
+
+#+BEGIN_HTML
+<div style="width:100%;text-align:center">
+<iframe
+src="https://orcid.org/static/html/widget.html?orcid=0000-0002-7218-2873&t=4ccb13&locale=en"
+frameborder="0" height="310" width="210px" vspace="0" hspace="0"
+marginheight="5" marginwidth="5" scrolling="no" allowtransparency="true">
+</iframe>
+</div>
+#+END_HTML
