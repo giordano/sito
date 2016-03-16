@@ -1,6 +1,9 @@
 #+TITLE: Mosè Giordano
 #+HTML_LINK_HOME:
 
+Here is a list of some of my activities.  Some sections are in Italian, others
+in English.  Sorry about the mess.
+
 *Fisica e matematica*
 - Miei documenti
   * Tesi triennale: /Il problema dei due corpi e applicazioni astrofisiche/
@@ -20,13 +23,14 @@
     stati stazionari, sezione d'urto, sviluppo in onde parziali e sfasamenti,
     equazione integrale della diffusione, serie di Born e approssimazione di
     Born, equazione di Lippmann-Schwinger
-  * [[./allow_listing/gravitazione.pdf][/Gravitazione e cosmologia/]] ([[https://github.com/giordano/gravitazione][repository Git]], [[https://github.com/giordano/gravitazione/tarball/master][sorgente]]).  Dispense (/non
-    ancora complete né necessariamente corrette/) del corso di Gravitazione e
-    cosmologia.  Argomenti: richiami di relatività speciale, trasformazioni di
-    Lorentz, calcolo tensoriale nello spazio di Minkowski, dinamica
-    particellare, formulazione covariante dell'elettrodinamica, equazioni di
-    Eulero-Lagrange di un campo e tensore energia-impulso, fluido perfetto
-    relativistico; principio di equivalenza, equazione del moto di una
+  * [[./allow_listing/gravitazione.pdf][/Gravitazione e cosmologia/]] ([[https://github.com/giordano/gravitazione][repository Git]], [[https://github.com/giordano/gravitazione/tarball/master][sorgente]]).  Dispense del corso
+    su relatività generale e cosmologia tenuto all’Università del Salento dal
+    professor Gabriele Ingrosso (avvertenza: /non ancora complete, potrebbero
+    contenere alcune inesattezze/).  Argomenti: richiami di relatività speciale,
+    trasformazioni di Lorentz, calcolo tensoriale nello spazio di Minkowski,
+    dinamica particellare, formulazione covariante dell'elettrodinamica,
+    equazioni di Eulero-Lagrange di un campo e tensore energia-impulso, fluido
+    perfetto relativistico; principio di equivalenza, equazione del moto di una
     particella in un campo gravitazionale, tensore metrico e connessione affine,
     limite newtoniano, campo gravitomagnetico, effetto Lense-Thirring,
     dilatazione gravitazionale del tempo e red-shift, principio di generale
@@ -55,12 +59,9 @@
   * [[file:allow_listing/prove_statistica.pdf][Prove d'esame]] ([[file:allow_listing/prove_statistica.tex][sorgente]]) di /Statistica e analisi numerica/ (corso di laurea
     triennale in Fisica), con soluzioni svolte da me di alcuni esercizi
 
-*Poster*
-- [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-poster.pdf][Poster]] per il [[http://www.nordicastrobiology.net/Exoplanets2014/General.html][Summer Course on Exoplanets (2014)]], tenutosi a [[https://it.wikipedia.org/wiki/La_Palma][La Palma]] (Isole
-  Canarie, Spagna) e relative [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-presentation.tar.gz][slide]] della presentazione
-
-*Fortran*
-- [[file:fortran-debug.org][Fare il debug di programmi ~Fortran~ con GDB]]
+*Posters*
+- [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-poster.pdf][Poster]] for the [[http://www.nordicastrobiology.net/Exoplanets2014/General.html][Summer Course on Exoplanets (2014)]], held at [[https://it.wikipedia.org/wiki/La_Palma][La Palma]] (Canary
+  Islands, Spain) and presentation [[http://www.dmf.unisalento.it/~giordano/allow_listing/summer-course-exoplanets-2014-presentation.tar.gz][slides]]
 
 $\LaTeX$
 - Pacchetto [[file:allow_listing/particlessymb.sty][~particlessymb.sty~]] ([[https://github.com/giordano/particlessymb.sty][repository Git]]) per la composizione dei simboli
@@ -76,21 +77,23 @@ $\LaTeX$
   pubblicata come [[http://www.guitex.org/home/it/guide-tematiche][guida tematica]] sul sito del [[http://www.guitex.org/home/][GuIT]] (Gruppo utilizzatori Italiani
   di TeX).  Scritta in collaborazione con Pietro Giuffrida
 
-*Emacs*
-- [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (di Fabio Viola): panoramica di alcuni
-  dei più famosi strumenti per lo sviluppo presenti in GNU Emacs
-- [[https://github.com/giordano/auctex-styles][Miei file di stile]] per [[https://www.gnu.org/software/auctex/][AUCTeX]].  I file [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/biblatex.el][~biblatex.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/bm.el][~bm.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/imakeidx.el][~imakeidx.el~]],
-  [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/kantlipsum.el][~kantlipsum~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/kpfonts.el][~kpfonts.el~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/lipsum.el][~lipsum~]], [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/longtable.el][~longtable~]] e [[http://git.savannah.gnu.org/cgit/auctex.git/plain/style/siunitx.el][~siunitx.el~]] sono stati
-  inclusi nella versione ufficiale di AUCTeX
-- [[https://github.com/giordano/dotemacs][Miei file di inizializzazione]] per [[https://www.gnu.org/software/emacs/][Emacs]]
-- [[file:emacs-diceware.org][Emacs Lisp implementation of Diceware]] (in inglese)
+*Fortran*
+- [[file:fortran-debug.org][Debugging ~Fortran~ programs with GDB]] (in Italian)
 
-#+BEGIN_HTML
-<div style="width:100%;text-align:center">
-<iframe
-src="https://orcid.org/static/html/widget.html?orcid=0000-0002-7218-2873&t=4ccb13&locale=en"
-frameborder="0" height="310" width="210px" vspace="0" hspace="0"
-marginheight="5" marginwidth="5" scrolling="no" allowtransparency="true">
-</iframe>
-</div>
-#+END_HTML
+*Emacs*
+- [[file:allow_listing/emacs-pdt.pdf][/GNU Emacs powerful developing tool/]] (by Fabio Viola, in Italian): overview of
+  some of the most famous developing tool for GNU Emacs
+- I am one of the developers and co-maintainers of [[https://github.com/giordano/auctex-styles][AUCTeX]], a powerful Emacs
+  package
+- [[https://github.com/giordano/dotemacs][My init files]] for [[https://www.gnu.org/software/emacs/][Emacs]] (disclaimer: they are a bit messy)
+- [[file:emacs-diceware.org][Emacs Lisp implementation of Diceware]] (in English)
+
+*Other softwares*
+- I am one of the developers of [[https://gnu.org/software/gnuastro/][Gnuastro]], a package consisting of utilities for
+  the manipulation and analysis of astronomical data
+- I am the author of [[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]], a bundle of small astronomical and
+  astrophysical routines written in Julia language.  It is based on famous IDL
+  AstroLib. You can read a short description [[file:astrolib-julia.org][here]] (in English).
+
+*ORCID*
+- You can find my ORCID profile at https://orcid.org/0000-0002-7218-2873

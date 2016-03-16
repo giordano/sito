@@ -1,0 +1,80 @@
+#+TITLE: AstroLib.jl
+#+STARTUP: showall
+#+LANGUAGE: en
+
+[[http://julialang.org/][Julia]] is a modern programming language, focussed on high-performance and
+particularly useful for technical and scientific computing.
+
+[[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]] is a package of small generic routines useful above all in
+astronomical and astrophysical context, written in Julia.
+
+Included are also translations of some [[http://idlastro.gsfc.nasa.gov/homepage.html][IDL Astronomy User's Library]] (also known
+as AstroLib) procedures, which are released under terms of [[http://idlastro.gsfc.nasa.gov/idlfaq.html#A14][BSD-2-Clause License]].
+~AstroLib.jl~'s functions are not drop-in replacement of those procedures, Julia
+standard data types are often used (e.g., ~DateTime~ type instead of generic
+string for dates) and the syntax may slightly differ.
+
+An extensive error testing suite ensures old fixed bugs will not be brought back
+by future changes.
+
+** Install
+
+~AstroLib.jl~ is available for Julia 0.4 and later versions, and can be
+installed with [[http://docs.julialang.org/en/stable/manual/packages/][Julia built-in package manager]]. In a Julia session run the
+command
+
+#+BEGIN_SRC julia
+julia> Pkg.add("AstroLib")
+#+END_SRC
+
+You may need to update your package list with ~Pkg.update()~ in order to
+get the latest version of ~AstroLib.jl~.
+
+** Usage
+
+After installing the package, you can start using ~AstroLib.jl~ with
+#+BEGIN_SRC julia
+using AstroLib
+#+END_SRC
+
+** Documentation
+
+Every function provided has detailed documentation that can be
+[[http://docs.julialang.org/en/stable/manual/documentation/#accessing-documentation][accessed]]
+at Julia REPL with
+#+BEGIN_SRC julia
+julia> ?FunctionName
+#+END_SRC
+or with
+#+BEGIN_SRC julia
+julia> @doc FunctionName
+#+END_SRC
+
+Full documentation of all functions can be read on-line at
+https://astrolibjl.readthedocs.org/.
+
+** Development
+
+~AstroLib.jl~ is developed on GitHub at
+[[https://github.com/giordano/AstroLib.jl]]. You can contribute by
+providing new functions, reporting bugs, and improving documentation.
+
+** Related Projects
+
+This is not the only effort to bundle astronomical functions written in Julia
+language. Other packages useful for more specific purposes are available at
+[[https://juliaastro.github.io/]].
+
+In addition, there are similar projects for Python ([[http://www.hs.uni-hamburg.de/DE/Ins/Per/Czesla/PyA/PyA/pyaslDoc/pyasl.html][Python AstroLib]]) and R
+([[http://rpackages.ianhowson.com/cran/astrolibR/][Astronomy Users Library]]).
+
+** License
+
+The ~AstroLib.jl~ package is licensed under the [[https://opensource.org/licenses/MIT][MIT "Expat" License]]. The
+original author is Mosè Giordano.
+
+** Notes
+
+This project is a work-in-progress, only few procedures have been translated so
+far. In addition, function syntax may change from time to time. Check [[https://github.com/giordano/AstroLib.jl/blob/master/TODO.md][TODO.md]]
+out to see how you can help. Volunteers are welcome!
