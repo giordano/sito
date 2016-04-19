@@ -12,7 +12,8 @@
 <p class=\"author\">Author: " (org-export-data (plist-get info :author) info)
 "</p>
 <p class=\"date\">Last modified: "
-(let ((file (plist-get info :input-file)))
+(let ((file (plist-get info :input-file))
+      (system-time-locale "C"))
   (format-time-string org-html-metadata-timestamp-format
 		      (if file (nth 5 (file-attributes file))
 			(current-time)))) "</p>

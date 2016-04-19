@@ -1,0 +1,407 @@
+#+TITLE: Cuba.jl -- Library for multidimensional numerical integration in Julia
+#+STARTUP: showall
+#+LANGUAGE: en
+
+* Introduction
+
+[[https://github.com/giordano/Cuba.jl][=Cuba.jl=]] is a library for multidimensional numerical integration with different
+algorithms in [[http://julialang.org/][Julia]].
+
+This is just a Julia wrapper around the C [[http://www.feynarts.de/cuba/][Cuba library]], version 4.2, by *Thomas
+Hahn*.  All the credits goes to him for the underlying functions, blame me for
+any problem with the Julia interface.  Feel free to report bugs and make
+suggestions at https://github.com/giordano/Cuba.jl/issues.
+
+All algorithms provided by Cuba library are supported in =Cuba.jl=:
+
+- =Vegas= (type: Monte Carlo; variance reduction with importance sampling)
+- =Suave= (type: Monte Carlo; variance reduction with globally adaptive
+  subdivision + importance sampling)
+- =Divonne= (type: Monte Carlo or deterministic; variance reduction with
+  stratified sampling, aided by methods from numerical optimization)
+- =Cuhre= (type: deterministic; variance reduction with globally adaptive
+  subdivision)
+
+For more details on the algorithms see the manual included in Cuba library and
+available in =deps/cuba-julia/cuba.pdf= after successful installation of
+=Cuba.jl=.
+
+Integration is performed on the n-dimensional unit hypercube $[0, 1]^n$.  If you
+want to compute an integral over a different set, you have to scale the
+integrand function in order to have an equivalent integral on $[0, 1]^n$.  For
+example, recall that in one dimension
+
+$$ \int_{a}^{b} \mathrm{d}x\,f[x] = \int_{0}^{1} \mathrm{d}y\,f[a + (b - a) y](b - a) $$
+
+where the final $(b - a)$ is the one-dimensional version of the Jacobian.  This
+generalizes straightforwardly to more than one dimension.
+
+*Note:* This package has been tested only on GNU/Linux and OS X systems.  Trying
+to install on Windows will likely fail, please report at
+https://github.com/giordano/Cuba.jl/issues/2 if you manage to install on this
+system.
+
+* Installation
+
+=Cuba.jl= is available for Julia 0.4 and later versions, and can be installed
+with [[http://docs.julialang.org/en/stable/manual/packages/][Julia built-in package manager]].  In a Julia session run the command
+
+#+BEGIN_SRC julia
+julia> Pkg.add("Cuba")
+#+END_SRC
+
+Installation script will download Cuba Library source code and build the Cuba
+shared object.  In order to accomplish this task a C compiler is needed.
+
+You may need to update your package list with =Pkg.update()= in order to get the
+latest version of =Cuba.jl=.
+
+* Usage
+
+After installing the package, run
+
+#+BEGIN_SRC julia
+using Cuba
+#+END_SRC
+
+or put this command into your Julia script.
+
+=Cuba.jl= provides 4 functions to integrate, one for each algorithm:
+
+#+BEGIN_SRC julia
+Vegas(integrand, ndim, ncomp[, keywords...])
+Suave(integrand, ndim, ncomp[, keywords...])
+Divonne(integrand, ndim, ncomp[, keywords...])
+Cuhre(integrand, ndim, ncomp[, keywords...])
+#+END_SRC
+
+Mandatory arguments are:
+
+- =function=: the name of the function to be integrated
+- =ndim=: the number of dimensions of the integral
+- =ncomp=: the number of components of the integrand
+
+=integrand= should be a function =integrand(x, f)= taking two arguments:
+
+- the input vector =x= of length =ndim=
+- the output vector =f= of length =ncomp=, used to set the value of each
+  component of the integrand at point =x=
+
+Also [[http://docs.julialang.org/en/stable/manual/functions/#anonymous-functions][anonymous functions]] are allowed as =integrand=.  For those familiar with
+[[https://github.com/stevengj/Cubature.jl][=Cubature.jl=]] package, this is the same syntax used for integrating
+vector-valued functions.
+
+For example, the integral
+
+$$ \int_{0}^{1} \cos (x) \,\mathrm{d}x = \sin(1) = 0.8414709848078965 $$
+
+can be computed with one of the following lines
+
+#+BEGIN_SRC julia
+Vegas((x,f)->f[1]=cos(x[1]), 1, 1)
+#  => 0.8414910005259609 ± 5.2708169787733e-5
+Suave((x,f)->f[1]=cos(x[1]), 1, 1)
+#  => 0.8411523690658836 ± 8.357995611133613e-5
+Divonne((x,f)->f[1]=cos(x[1]), 1, 1)
+#  => 0.841468071955942  ± 5.3955070531551656e-5
+Cuhre((x,f)->f[1]=cos(x[1]), 1, 1)
+#  => 0.8414709848078966 ± 2.2204460420128823e-16
+#+END_SRC
+
+The integrating functions =Vegas=, =Suave=, =Divonne=, and =Cuhre= return the
+6-tuple
+
+#+BEGIN_SRC julia
+(integral, error, probability, neval, fail, nregions)
+#+END_SRC
+
+The first three elements of the tuple are arrays with length =ncomp=,
+the last three ones are scalars. In particular, if you assign the output
+of integration functions to the variable named =result=, you can access
+the value of the =i=-th component of the integral with =result[1][i]=
+and the associated error with =result[2][i]=. The details of other
+quantities can be found in Cuba manual.
+
+All other arguments listed in Cuba documentation can be passed as
+optional keywords. More extended documentation of =Cuba.jl= is available
+at http://cubajl.readthedocs.org/. You can also download the PDF version
+of the manual from
+https://media.readthedocs.org/pdf/cubajl/latest/cubajl.pdf.
+
+*Note:* if you used =Cuba.jl= until version 0.4, be aware that the user
+interface has been reworked in version 0.5 in a backward incompatible
+way.
+
+
+* Examples
+
+** One dimensional integral
+
+The integrand of
+
+$$\int_{0}^{1} \frac{\log(x)}{\sqrt{x}} \,\mathrm{d}x$$
+
+has an algebraic-logarithmic divergence for $x = 0$, but the integral is
+convergent and its value is $-4$.  =Cuba.jl= integrator routines can handle this
+class of functions and you can easily compute the numerical approximation of
+this integral using one of the following commands:
+
+#+BEGIN_SRC julia
+Vegas( (x,f) -> f[1] = log(x[1])/sqrt(x[1]), 1, 1)
+#  => -3.9981623937128483 ± 0.0004406643716840934
+Suave( (x,f) -> f[1] = log(x[1])/sqrt(x[1]), 1, 1)
+#  => -3.999976286717149  ± 0.0003950486666134314
+Divonne( (x,f) -> f[1] = log(x[1])/sqrt(x[1]), 1, 1)
+#  => -3.9997602130594374 ± 0.00035678748149012664
+Cuhre( (x,f) -> f[1] = log(x[1])/sqrt(x[1]), 1, 1)
+#  => -4.00000035506719   ± 0.0003395484028625721
+#+END_SRC
+
+** Vector-valued integrand
+
+Consider the integral
+
+$$\int\limits_{\Omega} \boldsymbol{f}(x,y,z)\,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$$
+
+where $\Omega = [0, 1]^{3}$ and
+
+$$\boldsymbol{f}(x,y,z) = \left(\sin(x)\cos(y)\exp(z), \,\exp(-(x^2 + y^2 +
+   z^2)), \,\frac{1}{1 - xyz}\right)$$
+
+In this case it is more convenient to write a simple Julia script to compute the
+above integral
+
+#+BEGIN_SRC julia
+using Cuba
+
+function integrand(x, f)
+    f[1] = sin(x[1])*cos(x[2])*exp(x[3])
+    f[2] = exp(-(x[1]^2 + x[2]^2 + x[3]^2))
+    f[3] = 1/(1 - x[1]*x[2]*x[3])
+end
+
+result = Cuhre(integrand, 3, 3, epsabs=1e-12, epsrel=1e-10)
+answer = [(e-1)*(1-cos(1))*sin(1), (sqrt(pi)*erf(1)/2)^3, zeta(3)]
+for i = 1:3
+    println("Component $i")
+    println(" Result of Cuba: ", result[1][i], " ± ", result[2][i])
+    println(" Exact result:   ", answer[i])
+    println(" Actual error:   ", abs(result[1][i] - answer[i]))
+end
+#+END_SRC
+
+This is the output
+
+#+BEGIN_EXAMPLE
+Component 1
+ Result of Cuba: 0.6646696797813739 ± 1.0050367631018485e-13
+ Exact result:   0.6646696797813771
+ Actual error:   3.219646771412954e-15
+Component 2
+ Result of Cuba: 0.4165383858806454 ± 2.932866749838454e-11
+ Exact result:   0.41653838588663805
+ Actual error:   5.9926508200192075e-12
+Component 3
+ Result of Cuba: 1.2020569031649702 ± 1.1958522385908214e-10
+ Exact result:   1.2020569031595951
+ Actual error:   5.375033751420233e-12
+#+END_EXAMPLE
+
+** Integral with non-constant boundaries
+
+The integral
+
+$$\int_{-y}^{y}\int_{0}^{z}\int_{0}^{\pi} \cos(x)\sin(y)\exp(z)\,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$$
+
+has non-constant boundaries.  By applying the substitution rule repeatedly, you
+can scale the integrand function and get this equivalent integral over the fixed
+domain $\Omega = [0, 1]^{3}$
+
+$$\int\limits_{\Omega} 2\pi^{3}yz^2 \cos(\pi yz(2x - 1)) \sin(\pi yz)
+   \exp(\pi z)\,\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$$
+
+that can be computed with =Cuba.jl= using the following Julia script
+
+#+BEGIN_SRC julia
+using Cuba
+
+function integrand(x, f)
+    f[1] = 2pi^3*x[2]*x[3]^2*cos(pi*x[2]*x[3]*(2*x[1] - 1.0))*
+           sin(pi*x[2]*x[3])*exp(pi*x[3])
+end
+
+result = Cuhre(integrand, 3, 1, epsabs=1e-12, epsrel=1e-10)
+answer = pi*e^pi - (4e^pi - 4)/5
+println("Result of Cuba: ", result[1][1], " ± ", result[2][1])
+println("Exact result:   ", answer)
+println("Actual error:   ", abs(result[1][1] - answer))
+#+END_SRC
+
+This is the output
+
+#+BEGIN_SRC julia
+Result of Cuba: 54.98607586826157 ± 5.460606521639899e-9
+Exact result:   54.98607586789537
+Actual error:   3.6619951515604043e-10
+#+END_SRC
+
+** Complex integrand
+
+As already explained, =Cuba.jl= operates on real quantities, so if you want to
+integrate a complex-valued function of complex arguments you have to treat
+complex quantities as 2-component arrays or real numbers.  For example, if you
+do not remember [[https://en.wikipedia.org/wiki/Euler%27s_formula][Euler's formula]], you can compute this simple integral
+
+$$\int_{0}^{\pi/2} \exp(\mathrm{i} x)\,\mathrm{d}x$$
+
+with the following Julia script
+
+#+BEGIN_SRC julia
+using Cuba
+
+function integrand(x, f)
+    # Complex integrand, scaled to integrate in [0, 1].
+    tmp = exp(im*x[1]*pi/2)*pi/2
+    # Assign to two components of "f" the real
+    # and imaginary part of the integrand.
+    f[1] = real(tmp)
+    f[2] = imag(tmp)
+end
+
+result = Cuhre(integrand, 1, 2)
+println("Result of Cuba: ", result[1][1] + im*result[1][2])
+println("Exact result:   ", complex(1.0, 1.0))
+#+END_SRC
+
+This is the output
+
+#+BEGIN_EXAMPLE
+Result of Cuba: 1.0 + 1.0im
+Exact result:   1.0 + 1.0im
+#+END_EXAMPLE
+
+** Passing data to the integrand function
+
+Cuba Library allows program written in C and Fortran to pass extra data to the
+integrand function with =userdata= argument. This is useful, for example, when
+the integrand function depends on changing parameters. In =Cuba.jl= the
+=userdata= argument is not available, but you do not normally need it.
+
+For example, the [[https://en.wikipedia.org/wiki/Cumulative_distribution_function][cumulative distribution function]] $F(x;k)$ of [[https://en.wikipedia.org/wiki/Chi-squared_distribution][chi-squared
+distribution]] is defined by
+
+$$F(x; k) = \int_{0}^{x} \frac{t^{k/2 - 1}\exp(-t/2)}{2^{k/2}\Gamma(k/2)} \,\mathrm{d}t$$
+
+The cumulative distribution function depends on parameter $k$, but the function
+passed as integrand to =Cuba.jl= integrator routines accepts as arguments only
+the input and output vectors. However you can easily define a function to
+calculate a numerical approximation of $F(x; k)$ based on the above integral
+expression because the integrand can access any variable visible in its [[http://docs.julialang.org/en/stable/manual/variables-and-scoping/][scope]].
+The following Julia script computes $F(x = \pi; k)$ for different $k$ and
+compares the result with more precise values, based on the analytic expression
+of the cumulative distribution function, provided by [[https://github.com/jiahao/GSL.jl][GSL.jl]] package.
+
+#+BEGIN_SRC julia
+using Cuba, GSL
+
+function chi2cdf(x::Real, k::Real)
+    k2 = k/2
+    # Chi-squared probability density function, without constant denominator.
+    # The result of integration will be divided by that factor.
+    function chi2pdf(t::Float64)
+        # "k2" is taken from the outside.
+        return t^(k2 - 1.0)*exp(-t/2)
+    end
+    # Neither "x" is passed directly to the integrand function,
+    # but is visible to it.  "x" is used to scale the function
+    # in order to actually integrate in [0, 1].
+    x*Cuhre((t,f) -> f[1] = chi2pdf(t[1]*x), 1, 1)[1][1]/(2^k2*gamma(k2))
+end
+
+x = pi
+@printf("Result of Cuba: %.6f %.6f %.6f %.6f %.6f\n",
+        map((k) -> chi2cdf(x, k), collect(1:5))...)
+@printf("Exact result:   %.6f %.6f %.6f %.6f %.6f\n",
+        map((k) -> cdf_chisq_P(x, k), collect(1:5))...)
+#+END_SRC
+
+This is the output
+
+#+BEGIN_EXAMPLE
+Result of Cuba: 0.923681 0.792120 0.629694 0.465584 0.321833
+Exact result:   0.923681 0.792120 0.629695 0.465584 0.321833
+#+END_EXAMPLE
+
+* Performance
+
+=Cuba.jl= cannot ([[https://github.com/giordano/Cuba.jl/issues/1][yet?]]) take advantage of parallelization capabilities of Cuba
+Library.  Nonetheless, it has performances comparable with equivalent native C
+or Fortran codes based on Cuba library when =CUBACORES= environment variable is
+set to =0= (i.e., multithreading is disabled).  The following is the result of
+running the benchmark present in =test= directory on a 64-bit GNU/Linux system
+running Julia 0.4.3.  The C and FORTRAN 77 benchmark codes have been compiled
+with GCC 5.3.1.
+
+#+BEGIN_EXAMPLE
+$ CUBACORES=0 julia -e 'cd(Pkg.dir("Cuba")); include("test/benchmark.jl")'
+INFO: Performance of Cuba.jl:
+  0.340635 seconds (Vegas)
+  0.660305 seconds (Suave)
+  0.391721 seconds (Divonne)
+  0.305756 seconds (Cuhre)
+INFO: Performance of Cuba Library in C:
+  0.352429 seconds (Vegas)
+  0.668258 seconds (Suave)
+  0.380006 seconds (Divonne)
+  0.305772 seconds (Cuhre)
+INFO: Performance of Cuba Library in Fortran:
+  0.328000 seconds (Vegas)
+  0.660000 seconds (Suave)
+  0.364000 seconds (Divonne)
+  0.296000 seconds (Cuhre)
+#+END_EXAMPLE
+
+Of course, native C and Fortran codes making use of Cuba Library
+outperform =Cuba.jl= when higher values of =CUBACORES= are used, for
+example:
+
+#+BEGIN_EXAMPLE
+$ CUBACORES=1 julia -e 'cd(Pkg.dir("Cuba")); include("test/benchmark.jl")'
+INFO: Performance of Cuba.jl:
+  0.342575 seconds (Vegas)
+  0.660071 seconds (Suave)
+  0.393213 seconds (Divonne)
+  0.304569 seconds (Cuhre)
+INFO: Performance of Cuba Library in C:
+  0.118911 seconds (Vegas)
+  0.614480 seconds (Suave)
+  0.153015 seconds (Divonne)
+  0.086997 seconds (Cuhre)
+INFO: Performance of Cuba Library in Fortran:
+  0.108000 seconds (Vegas)
+  0.628000 seconds (Suave)
+  0.144000 seconds (Divonne)
+  0.084000 seconds (Cuhre)
+#+END_EXAMPLE
+
+=Cuba.jl= internally fixes =CUBACORES= to 0 in order to prevent from
+forking =julia= processes that would only slow down calculations eating
+up the memory, without actually taking advantage of concurrency.
+Furthemore, without this measure, adding more Julia processes with
+=addprocs()= would only make the program segfault.
+
+* Related projects
+
+Another Julia package for multidimenensional numerical integration is
+available: [[https://github.com/stevengj/Cubature.jl][Cubature.jl]], by
+Steven G. Johnson. Differently from =Cuba.jl=, this works on GNU/Linux,
+OS X and Windows as well.
+
+* License
+
+The Cuba.jl package is licensed under the GNU Lesser General Public
+License, the same as [[http://www.feynarts.de/cuba/][Cuba library]]. The
+original author is Mosè Giordano. If you use this library for your work,
+please credit Thomas Hahn (citable papers about Cuba library:
+http://adsabs.harvard.edu/abs/2005CoPhC.168...78H and
+http://adsabs.harvard.edu/abs/2015JPhCS.608a2066H).
