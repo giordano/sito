@@ -1,4 +1,5 @@
-#+TITLE: Cuba.jl -- Library for multidimensional numerical integration in Julia
+#+TITLE: Cuba.jl
+#+SUBTITLE:  Library for multidimensional numerical integration in Julia with four independent algorithms: Vegas, Suave, Divonne, and Cuhre
 #+STARTUP: showall
 #+LANGUAGE: en
 

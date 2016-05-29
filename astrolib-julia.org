@@ -1,9 +1,7 @@
 #+TITLE: AstroLib.jl
+#+SUBTITLE: Bundle of small astronomical and astrophysical Julia routines
 #+STARTUP: showall
 #+LANGUAGE: en
-
-[[http://julialang.org/][Julia]] is a modern programming language, focussed on high-performance and
-particularly useful for technical and scientific computing.
 
 [[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]] is a package of small generic routines useful above all in
 astronomical and astrophysical context, written in Julia.

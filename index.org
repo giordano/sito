@@ -91,14 +91,21 @@ $\LaTeX$
   from [[http://adswww.harvard.edu/][NASA ADS]].
 
 *Julia*
-- I am the author of [[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]], a bundle of small astronomical and
-  astrophysical routines written in Julia language.  It is based on famous IDL
-  AstroLib.  You can read a short description [[file:astrolib-julia.org][here]] (in English)
-- I am the author of [[https://github.com/giordano/Cuba.jl][~Cuba.jl~]], a library for multidimensional numerical
-  integration in Julia language.  This is just a Julia wrapper around [[http://www.feynarts.de/cuba/][Cuba
-  library]], by Thomas Hahn.  Complete documentation of =Cuba.jl= is available at
-  http://cubajl.readthedocs.org/, also in [[https://media.readthedocs.org/pdf/cubajl/latest/cubajl.pdf][PDF format]].  You can read a short
-  summary of features of the package and examples of use [[file:cuba-julia.org][here]]
+
+[[http://julialang.org/][Julia]] is a modern programming language, focussed on high-performance and
+particularly useful for technical and scientific computing.  I am the author of
+the following Julia packages:
+- [[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]], a bundle of small astronomical and astrophysical routines.  It
+  is based on famous IDL AstroLib.  You can read a short description [[file:astrolib-julia.org][here]]
+- [[https://github.com/giordano/Cuba.jl][~Cuba.jl~]], a library for multidimensional numerical integration.  This is just
+  a Julia wrapper around [[http://www.feynarts.de/cuba/][Cuba library]], by Thomas Hahn.  Complete documentation
+  of =Cuba.jl= is available at http://cubajl.readthedocs.org/, also in [[https://media.readthedocs.org/pdf/cubajl/latest/cubajl.pdf][PDF
+  format]].  You can read a short summary of features of the package and examples
+  of use [[file:cuba-julia.org][here]]
+- [[https://github.com/giordano/PolynomialRoots.jl][~PolynomialRoots.jl~]], a fast complex polynomial root finder, with support for
+  arbitrary precision calculations.  [[file:polynomialroots-julia.org][Here]] is a brief description of the package
+- [[https://github.com/giordano/Measurements.jl][~Measurements.jl~]], uncertainty propagation library.  Have a look at a short
+  description [[file:measurements-julia.org][here]]
 
 *Other softwares*
 - I am one of the developers of [[https://gnu.org/software/gnuastro/][Gnuastro]], a package consisting of utilities for
