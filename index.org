@@ -95,7 +95,7 @@ $\LaTeX$
 [[http://julialang.org/][Julia]] is a modern programming language, focussed on high-performance and
 particularly useful for technical and scientific computing.  I am the author of
 the following Julia packages:
-- [[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]], a bundle of small astronomical and astrophysical routines.  It
+- [[https://github.com/JuliaAstro/AstroLib.jl][~AstroLib.jl~]], a bundle of small astronomical and astrophysical routines.  It
   is based on famous IDL AstroLib.  You can read a short description [[file:astrolib-julia.org][here]]
 - [[https://github.com/giordano/Cuba.jl][~Cuba.jl~]], a library for multidimensional numerical integration.  This is just
   a Julia wrapper around [[http://www.feynarts.de/cuba/][Cuba library]], by Thomas Hahn.  Complete documentation

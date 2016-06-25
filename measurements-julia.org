@@ -5,22 +5,38 @@
 
 ** Introduction
 
-This [[http://julialang.org/][Julia]] module defines a new data type, =Measurement=, that allows you to
-enter a quantity with its uncertainty and [[https://en.wikipedia.org/wiki/Propagation_of_uncertainty][propagate errors]] when performing
-mathematical operations involving =Measurement= objects.
+[[https://github.com/giordano/Measurements.jl][Measurements.jl]] is a [[http://julialang.org/][Julia]] package that allows you to define numbers with
+uncertainties, perform calculations involving them, and easily get the
+uncertainty of the result according to [[https://en.wikipedia.org/wiki/Propagation_of_uncertainty][linear error propagation theory]].
 
-For those interested in the technical details of the package, =Measurement= is a
-[[http://docs.julialang.org/en/stable/manual/types/#composite-types][composite]] [[http://docs.julialang.org/en/stable/manual/types/#man-parametric-types][parametric]] type, whose definition is:
+*** Features List
 
-#+BEGIN_SRC julia
-immutable Measurement{T<:Real} <: Real
-    val::T # The value
-    err::T # The uncertainty, assumed to be standard deviation
-end
-#+END_SRC
+- Support for most mathematical operations available in Julia involving real and
+  complex numbers.  All existing functions that accept =AbstractFloat= (and
+  =Complex{AbstractFloat}=) arguments and internally use already supported
+  functions can in turn perform calculations involving numbers with
+  uncertainties without being redefined.  This greatly enhances the power of
+  =Measurements.jl= without effort for the users
+- Functional correlation between variables is correctly handled, so $x - x = 0
+  \pm 0$, $x/x = 1 \pm 0$, $\tan(x) = \sin(x)/\cos(x)$, etc...
+- Support for [[http://docs.julialang.org/en/stable/manual/integers-and-floating-point-numbers/#arbitrary-precision-arithmetic][arbitrary precision]] numbers with uncertainties (though this may
+  not be very useful for quantities that are intrinsically imprecise)
+- Define arrays of measurements and perform calculations with them
+- Propagate uncertainty for any function of real arguments (including functions
+  based on [[http://docs.julialang.org/en/stable/manual/calling-c-and-fortran-code/][C/Fortran calls]]), using =@uncertain= [[http://docs.julialang.org/en/stable/manual/metaprogramming/][macro]]
+- Functions to get the derivative and the gradient of an expression with respect
+  to one or more independent measurements
+- Functions to calculate [[https://en.wikipedia.org/wiki/Standard_score][standard score]] and [[https://en.wikipedia.org/wiki/Weighted_arithmetic_mean][weighted mean]]
+- Easy way to attach the uncertainty to a number using =±= sign
 
-Users that want to hack into =Measurements.jl= should use objects with type that
-is a subtype of =Real=.
+*** Documentation
+
+The complete manual of `Measurements.jl` is available at
+http://measurementsjl.readthedocs.io.  There, people interested in the details
+of the package, in order integrate the package in their workflow, can can find a
+technical appendix explaining how the package internally works.  You can also
+download the PDF version of the manual from
+https://media.readthedocs.org/pdf/measurementsjl/latest/measurementsjl.pdf.
 
 ** Installation
 
@@ -43,49 +59,68 @@ After installing the package, you can start using it with
 using Measurements
 #+END_SRC
 
-=Measurement= objects can be defined with either one of the two following
-constructors:
+The module defines a new =Measurement= data type.  =Measurement= objects can be
+created with the two following constructors:
 
 #+BEGIN_SRC julia
 Measurement(value, uncertainty)
 value ± uncertainty
 #+END_SRC
 
-where =value= and =uncertainty= are both subtype of =Real=.
+where
+
+- =value= is the nominal value of the measurement
+- =uncertainty= is its uncertainty, assumed to be a [[https://en.wikipedia.org/wiki/Standard_deviation][standard deviation]].
+
+They are both subtype of =AbstractFloat=.  Some keyboard layouts provide an easy
+way to type the =±= sign, if your does not, remember you can insert it in Julia
+REPL with =\pm= followed by =TAB= key.  You can provide =value= and
+=uncertainty= of any subtype of =Real= that can be converted to =AbstractFloat=.
+Thus, =Measurement(42, 33//12)= and =pi ± 0.1= are valid.
+
 =Measurement(value)= creates a =Measurement= object that doesn't have
-uncertainty, like mathematical constants. See below for further examples.
+uncertainty, like mathematical constants. See below for further
+examples.
 
-Many basic mathematical operations are redefined to accept =Measurement= type
-and uncertainty is calculated exactly using analityc expressions of function
-derivatives. In addition, being =Measurement= a subtype of =Real=, =Measurement=
-objects can be used in any function taking =Real= arguments without redefining
-it, and calculation of uncertainty will be exact. This greatly expands the power
-of =Measurements.jl= with little overhead for the users.
+#+BEGIN_QUOTE
+*Note*
 
-*NOTE 1:* This module currently doesn't take into account correlation between
-operands when calculating uncertainties (see TODO list below), so operations
-like =x+x=,=x*x=, =sin(x)/cos(x)= will have inaccurate uncertainties (usually
-overestimated). Use expressions not involving correlated variables when possible
-(e.g., =2x= in place of =x+x=, =x^2= for =x*x=, and =tan(x)= for
-=sin(x)/cos(x)=).
+Every time you use one of the constructors above you define a /new independent/
+measurement.  Instead, when you perform mathematical operations involving
+=Measurement= objects you create a quantity that is not independent, but rather
+depends on really independent measurements.
+#+END_QUOTE
 
-*NOTE 2:* Currently this module supports real-only measurements. It is possible
-to create a =Complex= measurement with =complex(Measurement(a, b),
-Measurement(c, d))= and error propagation should work for a few basic operations
-like addition and subtraction, but no work has been done to further support
-complex quantities with attached uncertainty.
+Most mathematical operations are instructed, by [[https://en.wikipedia.org/wiki/Operator_overloading][operator overloading]], to accept
+=Measurement= type, and uncertainty is calculated exactly using analityc
+expressions of functions' derivatives.
 
-*** Standard Score
+In addition, it is possible to create a =Complex= measurement with
+=complex(Measurement(a, b), Measurement(c, d))=.
 
-The =stdscore= function is available to calculate the [[https://en.wikipedia.org/wiki/Standard_score][standard score]] between a
-measurement and its expected value.
+Those interested in the technical details of the package, in order integrate the
+package in their workflow, can have a look at the [[http://measurementsjl.readthedocs.io/en/latest/appendix.html][technical appendix]] of the
+manual.
 
-*** Weighted Average
+#+BEGIN_QUOTE
+*Caution*
 
-=weightedmean= function gives the [[https://en.wikipedia.org/wiki/Weighted_arithmetic_mean][weighted mean]] of a set of measurements using
-[[https://en.wikipedia.org/wiki/Inverse-variance_weighting][inverses of variance as weights]]. Use =mean= for the simple arithmetic mean.
+The =±= sign is a convenient symbol to define quantities with uncertainty, but
+can lead to unexpected results if used in elaborate expressions involving many
+=±= s.  Use parantheses where appropriate to avoid confusion.  See for example
+the following cases:
+
+#+BEGIN_SRC julia
+7.5±1.2 + 3.9±0.9 # This is wrong!
+# => 11.4 ± 1.2 ± 0.9 ± 0.0
+(7.5±1.2) + (3.9±0.9) # This is correct
+# => 11.4 ± 1.5
+#+END_SRC
+#+END_QUOTE
 
 ** Examples
+
+These are some basic examples of use of the package:
 
 #+BEGIN_SRC julia
 using Measurements
@@ -98,24 +133,263 @@ b = 3.8 ± 0.4
 a - 1.2b
 # => -0.05999999999999961 ± 0.49030602688525043
 l = Measurement(0.936, 1e-3);
-T = Measurement(1.942, 4e-3);
+T = 1.942 ± 4e-3;
 P = 4pi^2*l/T^2
 # => 9.797993213510699 ± 0.041697817535336676
 c = Measurement(4)
-# => 4 ± 0
+# => 4.0 ± 0.0
 a*c
 # => 18.0 ± 0.4
-sind(Measurement(94, 1.2))
+sind(94 ± 1.2)
 # => 0.9975640502598242 ± 0.0014609761696991563
-x = 5.48 ± 0.67
-# => 5.48 ± 0.67
-y = Measurement(9.36, 1.02)
-# => 9.36 ± 1.02
+x = 5.48 ± 0.67;
+y = 9.36 ± 1.02;
 log(2x^2 - 3.4y)
 # =>  3.3406260917568824 ± 0.5344198747546611
 atan2(y, x)
 # => 1.0411291003154137 ± 0.07141014208254456
 #+END_SRC
+
+*** Correlation Between Variables
+
+Here you can see examples of how functionally correlated variables are
+treated within the package:
+
+#+BEGIN_SRC julia
+x = 8.4 ± 0.7
+x - x
+# => 0.0 ± 0.0
+x/x
+# => 1.0 ± 0.0
+x*x*x - x^3
+# => 0.0 ± 0.0
+sin(x)/cos(x) - tan(x)
+# => -2.220446049250313e-16 ± 0.0
+# They are equal within numerical accuracy
+y = -5.9 ± 0.2
+beta(x, y) - gamma(x)*gamma(y)/gamma(x + y)
+# => 0.0 ± 3.979039320256561e-14
+#+END_SRC
+
+You will get similar results for a variable that is a function of an
+already existing =Measurement= object:
+
+#+BEGIN_SRC julia
+u = 2x
+(x + x) - u
+# => 0.0 ± 0.0
+u/2x
+# => 1.0 ± 0.0
+u^3 - 8x^3
+# => 0.0 ± 0.0
+cos(x)^2 - (1 + cos(u))/2
+# => 0.0 ± 0.0
+#+END_SRC
+
+A variable that has the same nominal value and uncertainty as =u= above
+but is not functionally correlated with =x= will give different
+outcomes:
+
+#+BEGIN_SRC julia
+# Define a new measurement but with same nominal value
+# and uncertainty as u, so v is not correlated with x
+v = 16.8 ± 1.4
+(x + x) - v
+# => 0.0 ± 1.979898987322333
+v/2x
+# => 1.0 ± 0.11785113019775792
+v^3 - 8x^3
+# => 0.0 ± 1676.4200705455657
+cos(x)^2 - (1 + cos(v))/2
+# => 0.0 ± 0.8786465354843539
+#+END_SRC
+
+*** =@uncertain= Macro
+
+Macro =@uncertain= can be used to propagate uncertainty in arbitrary
+real or complex functions of real arguments, including functions not
+natively supported by this package.
+
+#+BEGIN_SRC julia
+@uncertain (x -> complex(zeta(x), exp(eta(x)^2)))(2 ± 0.13)
+# => (1.6449340668482273 ± 0.12188127308075564) + (1.9668868646839253 ± 0.042613944993428333)im
+@uncertain log(9.4 ± 1.3, 58.8 ± 3.7)
+# => 1.8182372640255153 ± 0.11568300475873611
+log(9.4 ± 1.3, 58.8 ± 3.7)
+# => 1.8182372640255153 ± 0.11568300475593848
+#+END_SRC
+
+You usually do not need to define a wrapping function before using it.  In the
+case where you have to define a function, like in the first line of previous
+examples, [[http://docs.julialang.org/en/stable/manual/functions/#anonymous-functions][anonymous functions]] allow you to do it in a very concise way.
+
+The macro works with functions calling C/Fortran functions as well.  For
+example, [[https://github.com/giordano/Cuba.jl][Cuba.jl]] package performs numerical integration by wrapping the C [[http://www.feynarts.de/cuba/][Cuba]]
+library.  You can define a function to numerically compute with =Cuba.jl= the
+integral defining the [[https://en.wikipedia.org/wiki/Error_function][error function]] and pass it to =@uncertain= macro.  Compare
+the result with that of the =erf= function, natively supported in
+=Measurements.jl= package
+
+#+BEGIN_SRC julia
+using Cuba
+cubaerf(x::Real) =
+    2x/sqrt(pi)*Cuhre((t, f) -> f[1] = exp(-abs2(t[1]*x)), 1, 1)[1][1]
+@uncertain cubaerf(0.5 ± 0.01)
+# => 0.5204998778130466 ± 0.008787825789336267
+erf(0.5 ± 0.01)
+# => 0.5204998778130465 ± 0.008787825789354449
+#+END_SRC
+
+Also here you can use an anonymous function instead of defining the =cubaerf=
+function, do it as an exercise.
+
+#+BEGIN_QUOTE
+*Warning*
+
+The type of all the arguments provided must be =Measurement=. If one of the
+arguments is actually an exact number (so without uncertainty), convert it to
+=Measurement= type:
+
+#+BEGIN_SRC julia
+atan2(10, 13.5 ± 0.8)
+# => 0.6375487981386927 ± 0.028343666961913202
+@uncertain atan2(10 ± 0, 13.5 ± 0.8)
+# => 0.6375487981386927 ± 0.028343666962347438
+#+END_SRC
+
+In addition, the function must be differentiable in all its arguments.  For
+example, the scaled first derivative of the Airy Ai function $\text{airyx}(1, z)
+= \exp((2/3) z \sqrt{z})\text{Ai}'(z)$ is not differentiable in the first
+argument, not even the trick of passing an exact measurement would work because
+the first argument must be an integer.  You can easily work around this
+limitation by wrapping the function in a single-argument function
+
+#+BEGIN_SRC julia
+@uncertain (x -> airyx(1, x))(4.8 ± 0.2)
+# => -0.42300740589773583 ± 0.004083414330362105
+#+END_SRC
+#+END_QUOTE
+
+*** Complex Measurements
+
+Here are a few examples about uncertainty propagation of complex-valued
+measurements.
+
+#+BEGIN_SRC julia
+u = complex(32.7 ± 1.1, -3.1 ± 0.2)
+v = complex(7.6 ± 0.9, 53.2 ± 3.4)
+2u+v
+# => (73.0 ± 2.3769728648009427) + (47.0 ± 3.4234485537247377)*im
+sqrt(u*v)
+# => (33.004702573592 ± 1.0831254428098636) + (25.997507418428984 ± 1.1082833691607152)*im
+gamma(u/v)
+# => (-0.25050193836584694 ± 0.011473098558745594) + (1.2079738483289788 ± 0.133606565257322)*im
+#+END_SRC
+
+You can also verify the [[https://en.wikipedia.org/wiki/Euler%27s_formula][Euler's formula]]
+
+#+BEGIN_SRC julia
+cis(u)
+# => (6.27781144696534 ± 23.454542573739754) + (21.291738410228678 ± 8.112997844397572)*im
+cos(u) + sin(u)*im
+# => (6.277811446965339 ± 23.454542573739754) + (21.291738410228678 ± 8.112997844397572)im
+#+END_SRC
+
+*** Arbitrary Precision Calculations
+
+[[http://docs.julialang.org/en/stable/manual/integers-and-floating-point-numbers/#arbitrary-precision-arithmetic][Arbitrary precision calculations]] involving quantities that are intrinsically
+imprecise may not be very useful, but Julia natively supports this type of
+arithmetic and so =Measurements.jl= does.  You only have to create =Measurement=
+objects with nominal value and/or uncertainty of type =BigFloat= (or =BigInt= as
+well, actually):
+
+#+BEGIN_SRC julia
+a = BigInt(3) ± 0.01
+b = 4 ± 0.03
+hypot(a, b)
+# => 5.000000000000000000000000000000000000000000000000000000000000000000000000000000 ± 2.473863375370596246756154793364399326509001412701084709723336101627452857843757e-02
+log(2a)^b
+# => 1.030668097314957384421465902631648727333270687596715387736946157489404400228445e+01 ± 1.959580475953079233643030915452927748488408893913287402297342303952280925878254e-01
+#+END_SRC
+
+*** Arrays of Measurements
+
+You can create arrays of =Measurement= objects and perform mathematical
+operations on them in the most natural way possible:
+
+#+BEGIN_SRC julia
+A = [1.03 ± 0.14, 2.88 ± 0.35, 5.46 ± 0.97]
+B = [0.92 ± 0.11, 3.14 ± 0.42, 4.67 ± 0.58]
+exp(sqrt(B)) - log(A)
+# => 3-element Array{Measurements.Measurement{Float64},1}:
+#     2.5799612193837493 ± 0.20215123893809778
+#     4.824843081566397 ± 0.7076631767039828
+#     6.982522998771525 ± 1.178287422979362
+cos(A).^2 + sin(A).^2
+# 3-element Array{Measurements.Measurement{Float64},1}:
+#     1.0 ± 0.0
+#     1.0 ± 0.0
+#     1.0 ± 0.0
+sum(A)
+# => 9.370000000000001 ± 1.0406728592598156
+mean(B - A)
+# => -0.21333333333333326 ± 0.42267665603337445
+#+END_SRC
+
+*** Derivative and Gradient
+
+In order to propagate the uncertainties, =Measurements.jl= keeps track of the
+partial derivative of an expression with respect to all independent measurements
+from which the expression comes. The package provides two convenient functions,
+=Measurements.derivative= and =Measurements.gradient=, that return the partial
+derivative and the gradient of an expression with respect to independent
+measurements.
+
+#+BEGIN_SRC julia
+x = 98.1 ± 12.7
+y = 105.4 ± 25.6
+z = 78.3 ± 14.1
+Measurements.derivative(2x - 4y, x)
+# => 2.0
+Measurements.derivative(2x - 4y, y)
+# => -4.0
+Measurements.gradient(2x - 4y, [x, y, z])
+# => 3-element Array{Float64,1}:
+#      2.0
+#     -4.0
+#      0.0  # The expression does not depend on z
+#+END_SRC
+
+#+BEGIN_QUOTE
+*Tip*
+
+The =Measurements.gradient= function is useful in order to discover which
+variable contributes most to the total uncertainty of a given expression, if you
+want to minimize it.  This can be calculated as the [[https://en.wikipedia.org/wiki/Hadamard_product_%2528matrices%2529][Hadamard (element-wise)
+product]] between the gradient of the expression with respect to the set of
+variables and the vector of uncertainties of the same variables in the same
+order.  For example:
+
+#+BEGIN_SRC julia
+w = y^(3//4)*log(y) + 3x - cos(y/x)
+# => 447.0410543780643 ± 52.41813324207829
+(Measurements.gradient(w, [x, y]).*[a.err for a in (x,y)]).^2
+# => 2-element Array{Any,1}:
+#     1442.31
+#     1305.36
+#+END_SRC
+
+In this case, the =x= variable contributes most to the uncertainty of =w=.  In
+addition, note that the [[https://en.wikipedia.org/wiki/Euclidean_norm][Euclidean norm]] of the Hadamard product above is exactly
+the total uncertainty of the expression:
+
+#+BEGIN_SRC julia
+vecnorm(Measurements.gradient(w, [x, y]).*[a.err for a in (x,y)])
+# => 52.41813324207829
+#+END_SRC
+#+END_QUOTE
+
+*** =stdscore= Function
 
 You can get the distance in number of standard deviations between a measurement
 and its expected value (this can be with or without uncertainty) using
@@ -128,6 +402,8 @@ stdscore(4.7 ± 0.58, 5 ± 0.01)
 # => -0.5172413793103445 ± 0.017241379310344827
 #+END_SRC
 
+*** =weightedmean= Function
+
 Calculate the weighted and arithmetic means of your set of measurements with
 =weightedmean= and =mean= respectively:
 
@@ -138,36 +414,19 @@ mean((3.1±0.32, 3.2±0.38, 3.5±0.61, 3.8±0.25))
 # => 3.4000000000000004 ± 0.2063673908348894
 #+END_SRC
 
-The =±= sign is a convenient symbol to define quantity with uncertainty, but can
-lead to unexpected results if used in elaborate expressions involving many =±=
-signs. Use parantheses where appropriate to avoid confusion, for example see the
-following cases:
-
-#+BEGIN_SRC julia
-7.5±1.2 + 3.9±0.9 # This is wrong!
-# => 11.4 ± 1.2 ± 0.9 ± 0.0
-(7.5±1.2) + (3.9±0.9) # This is correct
-# => 11.4 ± 1.5
-#+END_SRC
-
 ** How Can I Help?
 
-Have a look at the TODO list below, feel free to implement those features and
-send a pull request. In addition, you can instruct more mathematical functions
-to accept =Measurement= type arguments. Bug reports and wishlists are welcome as
-well.
+Have a look at the TODO\_ list below and the bug list at
+[[https://github.com/giordano/Measurements.jl/issues]], pick-up a task, write great
+code to accomplish it and send a pull request.  In addition, you can instruct
+more mathematical functions to accept =Measurement= type arguments.  Please,
+read the [[http://measurementsjl.readthedocs.io/en/latest/appendix.html][technical appendix]] of the manual in order to understand the design of
+this package. Bug reports and wishlists are welcome as well.
 
 ** TODO
 
 - Add pretty printing: optionally print only the relevant significant digits
-- Add support for correlation, so that =x-x == zero(x)=, =x*x == x^2=, =tan(x)
-  == sin(x)/cos(x)=, etc...
-- Extend to generic functions, also those not taking =Measurement= type
-  arguments. This should be possible with a macro like =@macroname
-  any_function(4.3 ± 0.4)=. This calculates the value of =any_function(4.3)= and
-  the approximated uncertainty using numerical derivatives or so, and finally
-  construct the =Measurement= object =any_function(4.3) ± uncertainty=
-- Support error propagation for complex measurements
+  ([[https://github.com/giordano/Measurements.jl/issues/5][issue #5]])
 - Other suggestions welcome =:-)=
 
 ** License

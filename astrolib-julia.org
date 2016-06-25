@@ -3,7 +3,7 @@
 #+STARTUP: showall
 #+LANGUAGE: en
 
-[[https://github.com/giordano/AstroLib.jl][~AstroLib.jl~]] is a package of small generic routines useful above all in
+[[https://github.com/JuliaAstro/AstroLib.jl][~AstroLib.jl~]] is a package of small generic routines useful above all in
 astronomical and astrophysical context, written in Julia.
 
 Included are also translations of some [[http://idlastro.gsfc.nasa.gov/homepage.html][IDL Astronomy User's Library]] (also known
