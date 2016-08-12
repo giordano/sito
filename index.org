@@ -106,6 +106,8 @@ the following Julia packages:
   arbitrary precision calculations.  [[file:polynomialroots-julia.org][Here]] is a brief description of the package
 - [[https://github.com/giordano/Measurements.jl][~Measurements.jl~]], uncertainty propagation library.  Have a look at a short
   description [[file:measurements-julia.org][here]]
+- [[https://github.com/giordano/LombScargle.jl][~LombScargle.jl~]], a package to perform the Lomb--Scargle periodogram, useful
+  for unevenly sampled data.  Check out its [[file:lombscargle-julia.org][description]]
 
 *Other softwares*
 - I am one of the developers of [[https://gnu.org/software/gnuastro/][Gnuastro]], a package consisting of utilities for

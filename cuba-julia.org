@@ -37,10 +37,8 @@ $$ \int_{a}^{b} \mathrm{d}x\,f[x] = \int_{0}^{1} \mathrm{d}y\,f[a + (b - a) y](b
 where the final $(b - a)$ is the one-dimensional version of the Jacobian.  This
 generalizes straightforwardly to more than one dimension.
 
-*Note:* This package has been tested only on GNU/Linux and OS X systems.  Trying
-to install on Windows will likely fail, please report at
-https://github.com/giordano/Cuba.jl/issues/2 if you manage to install on this
-system.
+=Cuba.jl= is available for GNU/Linux, Mac OS, and Windows (=i686= and =x86_64=
+architectures).
 
 * Installation
 
@@ -51,8 +49,10 @@ with [[http://docs.julialang.org/en/stable/manual/packages/][Julia built-in pack
 julia> Pkg.add("Cuba")
 #+END_SRC
 
-Installation script will download Cuba Library source code and build the Cuba
-shared object.  In order to accomplish this task a C compiler is needed.
+Installation script on GNU/Linux and Mac OS systems will download Cuba Library
+source code and build the Cuba shared object.  In order to accomplish this task
+a C compiler is needed.  Instead, on Windows a prebuilt version of the library
+is downloaded.
 
 You may need to update your package list with =Pkg.update()= in order to get the
 latest version of =Cuba.jl=.
@@ -340,26 +340,26 @@ Library.  Nonetheless, it has performances comparable with equivalent native C
 or Fortran codes based on Cuba library when =CUBACORES= environment variable is
 set to =0= (i.e., multithreading is disabled).  The following is the result of
 running the benchmark present in =test= directory on a 64-bit GNU/Linux system
-running Julia 0.4.3.  The C and FORTRAN 77 benchmark codes have been compiled
-with GCC 5.3.1.
+running Julia 0.6.0-dev.72.  The C and FORTRAN 77 benchmark codes have been
+compiled with GCC 5.4.0.
 
 #+BEGIN_EXAMPLE
 $ CUBACORES=0 julia -e 'cd(Pkg.dir("Cuba")); include("test/benchmark.jl")'
 INFO: Performance of Cuba.jl:
-  0.340635 seconds (Vegas)
-  0.660305 seconds (Suave)
-  0.391721 seconds (Divonne)
-  0.305756 seconds (Cuhre)
+  0.318776 seconds (Vegas)
+  0.665132 seconds (Suave)
+  0.369386 seconds (Divonne)
+  0.284738 seconds (Cuhre)
 INFO: Performance of Cuba Library in C:
-  0.352429 seconds (Vegas)
-  0.668258 seconds (Suave)
-  0.380006 seconds (Divonne)
-  0.305772 seconds (Cuhre)
+  0.344432 seconds (Vegas)
+  0.666233 seconds (Suave)
+  0.374605 seconds (Divonne)
+  0.309294 seconds (Cuhre)
 INFO: Performance of Cuba Library in Fortran:
-  0.328000 seconds (Vegas)
-  0.660000 seconds (Suave)
+  0.324000 seconds (Vegas)
+  0.640000 seconds (Suave)
   0.364000 seconds (Divonne)
-  0.296000 seconds (Cuhre)
+  0.284000 seconds (Cuhre)
 #+END_EXAMPLE
 
 Of course, native C and Fortran codes making use of Cuba Library
@@ -369,20 +369,20 @@ example:
 #+BEGIN_EXAMPLE
 $ CUBACORES=1 julia -e 'cd(Pkg.dir("Cuba")); include("test/benchmark.jl")'
 INFO: Performance of Cuba.jl:
-  0.342575 seconds (Vegas)
-  0.660071 seconds (Suave)
-  0.393213 seconds (Divonne)
-  0.304569 seconds (Cuhre)
+  0.322994 seconds (Vegas)
+  0.638098 seconds (Suave)
+  0.371486 seconds (Divonne)
+  0.284845 seconds (Cuhre)
 INFO: Performance of Cuba Library in C:
-  0.118911 seconds (Vegas)
-  0.614480 seconds (Suave)
-  0.153015 seconds (Divonne)
-  0.086997 seconds (Cuhre)
+  0.103477 seconds (Vegas)
+  0.647665 seconds (Suave)
+  0.159992 seconds (Divonne)
+  0.088057 seconds (Cuhre)
 INFO: Performance of Cuba Library in Fortran:
-  0.108000 seconds (Vegas)
-  0.628000 seconds (Suave)
-  0.144000 seconds (Divonne)
-  0.084000 seconds (Cuhre)
+  0.096000 seconds (Vegas)
+  0.660000 seconds (Suave)
+  0.176000 seconds (Divonne)
+  0.088000 seconds (Cuhre)
 #+END_EXAMPLE
 
 =Cuba.jl= internally fixes =CUBACORES= to 0 in order to prevent from
@@ -393,10 +393,8 @@ Furthemore, without this measure, adding more Julia processes with
 
 * Related projects
 
-Another Julia package for multidimenensional numerical integration is
-available: [[https://github.com/stevengj/Cubature.jl][Cubature.jl]], by
-Steven G. Johnson. Differently from =Cuba.jl=, this works on GNU/Linux,
-OS X and Windows as well.
+Another Julia package for multidimenensional numerical integration is available:
+[[https://github.com/stevengj/Cubature.jl][Cubature.jl]], by Steven G. Johnson.
 
 * License
 
