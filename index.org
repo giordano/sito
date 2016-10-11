@@ -108,8 +108,8 @@ the following Julia packages:
   description [[file:measurements-julia.org][here]]
 - [[https://github.com/giordano/LombScargle.jl][~LombScargle.jl~]], a package to perform the Lomb--Scargle periodogram, useful
   for unevenly sampled data.  Check out its [[file:lombscargle-julia.org][description]]
-- [[https://github.com/JuliaDSP/Deconvolution.jl][~Deconvolution.jl~]], a package for deconvolution of digital signals.  Check out
-  its [[file:lombscargle-julia.org][description]]
+- [[https://github.com/JuliaDSP/Deconvolution.jl][~Deconvolution.jl~]], a package for deconvolution of digital signals.  Read this
+  short [[file:deconvolution.org][description]] for more information
 
 *Other softwares*
 - I am one of the developers of [[https://gnu.org/software/gnuastro/][Gnuastro]], a package consisting of utilities for
