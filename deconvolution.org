@@ -5,8 +5,8 @@
 
 * Introduction
 
-=[[https://github.com/JuliaDSP/Deconvolution.jl][Deconvolution.jl]]= provides a set of functions to [[https://en.wikipedia.org/wiki/Deconvolution][deconvolve]] digital signals,
-like images or time series.  This is written in [[http://julialang.org/][Julia]], a modern high-level,
+[[https://github.com/JuliaDSP/Deconvolution.jl][Deconvolution.jl]] provides a set of functions to [[https://en.wikipedia.org/wiki/Deconvolution][deconvolve]] digital signals, like
+images or time series.  This is written in [[http://julialang.org/][Julia]], a modern high-level,
 high-performance dynamic programming language designed for technical computing.
 
 * Installation
@@ -18,7 +18,7 @@ commands
 #+BEGIN_SRC julia
 julia> Pkg.update()
 julia> Pkg.add("Deconvolution")
-#+END_SRC julia
+#+END_SRC
 
 ** Documentation
 
@@ -37,7 +37,7 @@ the future.
 
 #+BEGIN_SRC julia
 wiener(input, signal, noise[, blurring])
-#+END_SRC julia
+#+END_SRC
 
 The [[https://en.wikipedia.org/wiki/Wiener_deconvolution][Wiener deconvolution]] attempts at reducing the noise in a digital signal by
 suppressing frequencies with low [[https://en.wikipedia.org/wiki/Signal-to-noise_ratio][signal-to-noise ratio]]. The signal is assumed to
@@ -102,7 +102,7 @@ view(img) # ...the original image
 view(blurred_img) # ...the blurred image
 view(polished) # ...the polished image
 view(polished2) # ...the second polished image
-#+END_SRC julia
+#+END_SRC
 
 * Development
 
