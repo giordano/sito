@@ -108,6 +108,8 @@ the following Julia packages:
   description [[file:measurements-julia.org][here]]
 - [[https://github.com/giordano/LombScargle.jl][~LombScargle.jl~]], a package to perform the Lomb--Scargle periodogram, useful
   for unevenly sampled data.  Check out its [[file:lombscargle-julia.org][description]]
+- [[https://github.com/JuliaDSP/Deconvolution.jl][~Deconvolution.jl~]], a package for deconvolution of digital signals.  Check out
+  its [[file:lombscargle-julia.org][description]]
 
 *Other softwares*
 - I am one of the developers of [[https://gnu.org/software/gnuastro/][Gnuastro]], a package consisting of utilities for
@@ -115,3 +117,10 @@ the following Julia packages:
 
 *ORCID*
 - You can find my ORCID profile at https://orcid.org/0000-0002-7218-2873
+
+*Public outreach*
+- I collaborate for scientific news with Tom's Hardware Italia, top Italian
+  online publication about technology and science.  Here is the list of the news
+  I edited (in Italian): http://www.tomshw.it/utenti/list/mose-giordano-11662.
+  Some of them have been syndicated to http://www.repubblica.it/, top Italian
+  news website.

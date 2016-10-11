@@ -1,0 +1,121 @@
+#+TITLE: Deconvolution.jl
+#+SUBTITLE: Package for deconvolution of digital signals
+#+STARTUP: showall
+#+LANGUAGE: en
+
+* Introduction
+
+=[[https://github.com/JuliaDSP/Deconvolution.jl][Deconvolution.jl]]= provides a set of functions to [[https://en.wikipedia.org/wiki/Deconvolution][deconvolve]] digital signals,
+like images or time series.  This is written in [[http://julialang.org/][Julia]], a modern high-level,
+high-performance dynamic programming language designed for technical computing.
+
+* Installation
+
+=Deconvolution.jl= is available for Julia 0.4 and later versions, and can be
+installed with [[http://docs.julialang.org/en/stable/manual/packages/][Julia built-in package manager]]. In a Julia session run the
+commands
+
+#+BEGIN_SRC julia
+julia> Pkg.update()
+julia> Pkg.add("Deconvolution")
+#+END_SRC julia
+
+** Documentation
+
+The complete manual of =Deconvolution.jl= is available at
+http://deconvolutionjl.readthedocs.io. It has more detailed explanation of the
+methods used and the examples are complemented with pictures. You can also
+download the PDF version of the manual from
+https://media.readthedocs.org/pdf/deconvolutionjl/latest/deconvolutionjl.pdf.
+
+* Usage
+
+Currently =Deconvolution.jl= provides only one methd, but others will come in
+the future.
+
+** =wiener=
+
+#+BEGIN_SRC julia
+wiener(input, signal, noise[, blurring])
+#+END_SRC julia
+
+The [[https://en.wikipedia.org/wiki/Wiener_deconvolution][Wiener deconvolution]] attempts at reducing the noise in a digital signal by
+suppressing frequencies with low [[https://en.wikipedia.org/wiki/Signal-to-noise_ratio][signal-to-noise ratio]]. The signal is assumed to
+be degraded by additive noise and a shift-invariant blurring function.
+
+The =wiener= function can be used to apply the Wiener deconvolution method to a
+digital signal. The arguments are:
+
+- =input=: the digital signal
+- =signal=: the original signal (or a signal with a luckily similar
+  power spectrum)
+- =noise=: the noise of the signal (or a noise with a luckily similar
+  power spectrum)
+- =blurring= (optional argument): the blurring kernel
+
+All arguments must be arrays, all with the same size, and all of them in the
+time/space domain (they will be converted to the frequency domain internally
+using =fft= function). Argument =noise= can be also a real number, in which case
+a constant noise with that value will be assumed (this is a good approximation
+in the case of [[https://en.wikipedia.org/wiki/White_noise][white noise]]).
+
+* Examples
+
+** Wiener deconvolution
+
+Here is an example of use of =wiener= function to perform the Wiener
+deconvolution of an image, degraded with a blurring function and an additive
+noise.
+
+#+BEGIN_SRC julia
+using Images, TestImages, Deconvolution, ImageView
+
+# Open the test image
+img = float(data(testimage("cameraman")))'
+# Create the blurring kernel in frequency domain
+x = hcat(ntuple(x -> collect((1:512) - 257), 512)...)
+k = 0.001
+blurring_ft = exp(-k*(x .^ 2 + x' .^ 2).^(5//6))
+# Create additive noise
+noise = rand(size(img))
+# Fourier transform of the blurred image, with additive noise
+blurred_img_ft = fftshift(blurring_ft) .* fft(img) + fft(noise)
+# Get the blurred image from its Fourier transform
+blurred_img = real(ifft(blurred_img_ft))
+# Get the blurring kernel in the space domain
+blurring = ifft(fftshift(blurring_ft))
+# Polish the image with Deconvolution deconvolution
+polished = wiener(blurred_img, img, noise, blurring)
+
+# Wiener deconvolution works also when you don't have the real image and noise,
+# that is the most common and useful case.  This happens because the Wiener
+# filter only cares about the power spectrum of the signal and the noise, so you
+# don't need to have the exact signal and noise but something with a similar
+# power spectrum.
+img2 = float(data(testimage("livingroom"))) # Load another image
+noise2 = rand(size(img)) # Create another additive noise
+# Polish the image with Deconvolution deconvolution
+polished2 = wiener(blurred_img, img2, noise2, blurring)
+
+# Compare...
+view(img) # ...the original image
+view(blurred_img) # ...the blurred image
+view(polished) # ...the polished image
+view(polished2) # ...the second polished image
+#+END_SRC julia
+
+* Development
+
+The package is developed at https://github.com/JuliaDSP/Deconvolution.jl. There
+you can submit bug reports, propose new deconvolution methods with pull
+requests, and make suggestions. If you would like to take over maintainership of
+the package in order to further improve it, please open an issue.
+
+** History
+
+The ChangeLog of the package is available in [[https://github.com/JuliaDSP/Deconvolution.jl/blob/master/NEWS.md][NEWS.md]] file in top directory.
+
+* License
+
+The =Deconvolution.jl= package is licensed under the MIT "Expat" License. The
+original author is Mosè Giordano.
